@@ -1,0 +1,1 @@
+sudo nvprof ./hw1

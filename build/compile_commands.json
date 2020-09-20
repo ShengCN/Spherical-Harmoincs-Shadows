@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build",
+  "command": "/usr/local/cuda-10.1/bin/nvcc    -g   -x cu -dc /home/ysheng/Documents/CGT_620/main.cu -o CMakeFiles/hw1.dir/main.cu.o",
+  "file": "/home/ysheng/Documents/CGT_620/main.cu"
+}
+]
