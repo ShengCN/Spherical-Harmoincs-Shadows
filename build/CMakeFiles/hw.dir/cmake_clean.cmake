@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/hw.dir/main.cu.o"
   "CMakeFiles/hw.dir/cmake_device_link.o"
-  "hw.pdb"
+  "CMakeFiles/hw.dir/main.cu.o"
   "hw"
+  "hw.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

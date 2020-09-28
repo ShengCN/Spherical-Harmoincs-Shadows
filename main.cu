@@ -7,6 +7,7 @@
 #include <random>
 #include <deque>
 #include <cmath>
+#include <omp.h>
 #include "helper_cuda.hpp"
 #include "glm/vec3.hpp"
 
@@ -16,6 +17,8 @@
 #include "stb/stb_image_write.h"
 
 using namespace glm;
+
+
 struct image {
 	std::vector<unsigned char> pixels;
 	int w, h;
@@ -79,6 +82,9 @@ enum class algorithm {
 	gaussian
 };
 
+int n = 11;
+algorithm cur_alg = algorithm::triangular;
+
 __host__ __device__ 
 unsigned char clip(float v) {
 	if(v<0.0f) v = 0.0f;
@@ -118,15 +124,16 @@ void cuda_process(unsigned char **buffers, int n, int w, int h, algorithm alg_ty
 				}
 				break;
 				case algorithm::triangular: {
-					float dh = 1.0f/n;
-					for(int i = 0; i < n; ++i) {
-						float d = (float)(i+1);
-						if (i + 1 > n/2)
-							d = d - n/2;
+					float center = (n+1)/2;
+					float dh = 1.0f/(center * center);
+					for(int i = 1; i <= n; ++i) {
+						float d = (float)(i);
+						if (i > n/2 + 1)
+							d = n-d+1;
 						float weight = d * dh;
-						r += (float)buffers[i][ri] * weight;
-						g += (float)buffers[i][gi] * weight;
-						b += (float)buffers[i][bi] * weight;
+						r += (float)buffers[i-1][ri] * weight;
+						g += (float)buffers[i-1][gi] * weight;
+						b += (float)buffers[i-1][bi] * weight;
 					}
 					out_buffer[ri] = clip(r);
 					out_buffer[gi] = clip(g);
@@ -134,7 +141,7 @@ void cuda_process(unsigned char **buffers, int n, int w, int h, algorithm alg_ty
 				}
 				break;
 				case algorithm::gaussian: {
-					float sig = .5f;
+					float sig = (float)n/4;
 					float mu = (float)(n/2);
 					float w_sum = 0.0f;
 					for(int i = 0; i < n; ++i) {
@@ -144,9 +151,10 @@ void cuda_process(unsigned char **buffers, int n, int w, int h, algorithm alg_ty
 						g += (float)buffers[i][gi] * weight;
 						b += (float)buffers[i][bi] * weight;
 					}
-					out_buffer[ri] = clip(r/w_sum);
-					out_buffer[gi] = clip(g/w_sum);
-					out_buffer[bi] = clip(b/w_sum);
+					w_sum = 1.0 / w_sum;
+					out_buffer[ri] = clip(r * w_sum);
+					out_buffer[gi] = clip(g * w_sum);
+					out_buffer[bi] = clip(b * w_sum);
 				}
 				break;
 				default:
@@ -203,7 +211,7 @@ public:
 	
 	// compute motion blur for current batch
 	void process(algorithm type, image &out) {
-		dim3 grid(256,256,1), block(32,32,1);
+		dim3 grid(1024,1024,1), block(32,32,1);
 		
 		// image pointer array
 		int n = (int)d_buffers.size();
@@ -236,30 +244,40 @@ private:
 	int first_ind;	// first index for sliding window
 };
 
-void openmp_woker(std::vector<std::string> &files, const std::string output_folder, const int n, algorithm cur_algorithm) {
+void openmp_woker(std::vector<std::string> &files, size_t begin, size_t end, const std::string output_folder, const int n, algorithm cur_algorithm) {
 	assert((int)files.size() > n);
 	assert(n % 2 == 1); 
 
 	// init window
 	// n is odd number
-	std::vector<std::string> init_files(n/2, files[0]);
-	init_files.insert(init_files.end(), files.begin(), files.begin() + n/2 + 1);
+	std::vector<std::string> init_files;
+	size_t chunk = end - begin;
+	if(begin == 0) {
+		init_files = std::vector<std::string>(n/2, files[begin]);
+		init_files.insert(init_files.end(), files.begin() + begin, files.begin() + n/2 + 1);
+	} else {
+		init_files = std::vector<std::string>(files.begin() + begin - n / 2, files.begin() + begin + n/2 + 1);
+	}
+	
 	window_process processor(init_files);
 
 	image out_img;
-	for(int i = 0; i < files.size(); ++i) {
+	for(int i = begin; i < end; ++i) {
 		processor.process(cur_algorithm, out_img);
-		std::string ori_fname = getFileNameFromPath(files[i].c_str());
+		char buff[100];
+		snprintf(buff, sizeof(buff), "%04d.png", i);
+		std::string ori_fname = buff; 
+		ori_fname = std::to_string(n) + "_" + std::to_string((int)cur_alg) + "_" + ori_fname;
 		std::string out_path = output_folder + "/" + ori_fname;
 		if(!out_img.save(out_path)) {
-			std::cerr << "Cannot save " << out_path << std::endl;
+			// std::cerr << "Cannot save " << out_path << std::endl;
 		} else {
-			std::cout << "File " << out_path << " saved" << std::endl;
+			// std::cout << "File " << out_path << " saved" << std::endl;
 		}
 
 		// update a sliding window buffer
 		// corner cases
-		int ending_ind = std::min(i + 1 + n/2, (int)files.size() - 1);
+		int ending_ind = std::min(i + 1 + n/2, (int)end-1);
 		processor.add_image(files[ending_ind]);
 	}
 }
@@ -268,16 +286,13 @@ void lab3(std::vector<std::string> &files, const std::string output_folder) {
 	printf("There are %d files \n", (int)files.size());
 	printf("Output folder: %s \n", output_folder.c_str());
 
-	int n = 3;
 	int mp_thread = 16;
 	int chunk_size = files.size() / mp_thread;
+#pragma omp parallel for 
 	for(int i = 0; i < mp_thread; ++i) {
-		size_t offset = chunk_size * i;
-		std::vector<std::string>::const_iterator begin_iter = files.begin() + offset;
-		std::vector<std::string>::const_iterator end_iter = begin_iter + chunk_size;
-		std::vector<std::string> cur_thread_files(begin_iter, end_iter);
-		openmp_woker(cur_thread_files, output_folder, n, algorithm::gaussian);
-		break;
+		size_t begin = chunk_size * i;
+		size_t end = chunk_size * (i+1);
+		openmp_woker(files, begin, end, output_folder, n, cur_alg);
 	}
 
 }
@@ -304,7 +319,36 @@ int main(int argc, char* argv[]) {
 	std::string out_folder = "video_out";
 	std::vector<std::string> video_files = read_files(inputs);
 
-	lab3(video_files, out_folder);
+	std::fstream out("data.csv", std::fstream::out);
+	if(!out.is_open()) {
+		std::cerr << "cannot open data file \n";
+		return -1;
+	} else {
+		out << "n,algorithm,time \n";	
+	}
+	
+	timer t;
+	for (int i = 0; i < 24; ++i) {
+		n = 2 * i + 1;
+		cur_alg = algorithm::rectangular;
+		t.tic();
+		lab3(video_files, out_folder);
+		t.toc();
+		out << n << "," << (int)cur_alg << "," << t.get_time() << std::endl;
 
+		cur_alg = algorithm::triangular;
+		t.tic();
+		lab3(video_files, out_folder);
+		t.toc();
+		out << n << "," << (int)cur_alg << "," << t.get_time() << std::endl;
+
+		cur_alg = algorithm::gaussian;
+		t.tic();
+		lab3(video_files, out_folder);
+		t.toc();
+		out << n << "," << (int)cur_alg << "," << t.get_time() << std::endl;
+	}
+	
+	out.close();
 	return 0;
 }

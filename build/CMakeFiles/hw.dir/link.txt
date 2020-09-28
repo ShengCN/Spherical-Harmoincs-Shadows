@@ -1,1 +1,1 @@
-/usr/bin/g++   CMakeFiles/hw.dir/main.cu.o CMakeFiles/hw.dir/cmake_device_link.o -o hw  -L"/usr/local/cuda-10.1/targets/x86_64-linux/lib/stubs" -L"/usr/local/cuda-10.1/targets/x86_64-linux/lib" -lcudadevrt -lcudart_static -lrt -lpthread -ldl
+/usr/bin/g++  -fopenmp CMakeFiles/hw.dir/main.cu.o CMakeFiles/hw.dir/cmake_device_link.o -o hw  /usr/lib/gcc/x86_64-linux-gnu/7/libgomp.so -lpthread -lcudadevrt -lcudart_static -lrt -lpthread -ldl  -L"/usr/local/cuda-10.1/targets/x86_64-linux/lib/stubs" -L"/usr/local/cuda-10.1/targets/x86_64-linux/lib"

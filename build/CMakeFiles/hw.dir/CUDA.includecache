@@ -161,6 +161,8 @@ deque
 -
 cmath
 -
+omp.h
+-
 helper_cuda.hpp
 /home/ysheng/Documents/CGT_620/helper_cuda.hpp
 glm/vec3.hpp
