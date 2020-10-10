@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build",
+  "command": "/usr/local/cuda-10.1/bin/nvcc   -Xcompiler -fopenmp -g -std=c++14 -x cu -dc /home/ysheng/Documents/CGT_620/main.cu -o CMakeFiles/hw.dir/main.cu.o && /usr/local/cuda-10.1/bin/nvcc   -Xcompiler -fopenmp -g -std=c++14 -x cu -M /home/ysheng/Documents/CGT_620/main.cu -MT CMakeFiles/hw.dir/main.cu.o -o $DEP_FILE",
+  "file": "/home/ysheng/Documents/CGT_620/main.cu"
+}
+]

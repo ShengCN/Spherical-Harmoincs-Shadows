@@ -241,7 +241,6 @@ private:
 	std::deque<unsigned char *> d_buffers;
 	unsigned char *d_cur_buffer;
 	image h_out_img;
-	int first_ind;	// first index for sliding window
 };
 
 void openmp_woker(std::vector<std::string> &files, size_t begin, size_t end, const std::string output_folder, const int n, algorithm cur_algorithm) {
