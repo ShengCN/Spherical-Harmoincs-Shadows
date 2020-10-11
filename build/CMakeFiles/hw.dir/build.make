@@ -135,6 +135,8 @@ CMakeFiles/hw.dir/cmake_device_link.o: /usr/lib/libboost_filesystem.so.1.74.0
 CMakeFiles/hw.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libGL.so
 CMakeFiles/hw.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/librt.so
 CMakeFiles/hw.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libm.so
+CMakeFiles/hw.dir/cmake_device_link.o: /usr/lib/gcc/x86_64-linux-gnu/7/libgomp.so
+CMakeFiles/hw.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libpthread.so
 CMakeFiles/hw.dir/cmake_device_link.o: CMakeFiles/hw.dir/dlink.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ysheng/Documents/CGT_620/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CUDA device code CMakeFiles/hw.dir/cmake_device_link.o"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/hw.dir/dlink.txt --verbose=$(VERBOSE)
@@ -164,6 +166,8 @@ hw: /usr/lib/libboost_filesystem.so.1.74.0
 hw: /usr/lib/x86_64-linux-gnu/libGL.so
 hw: /usr/lib/x86_64-linux-gnu/librt.so
 hw: /usr/lib/x86_64-linux-gnu/libm.so
+hw: /usr/lib/gcc/x86_64-linux-gnu/7/libgomp.so
+hw: /usr/lib/x86_64-linux-gnu/libpthread.so
 hw: CMakeFiles/hw.dir/cmake_device_link.o
 hw: CMakeFiles/hw.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ysheng/Documents/CGT_620/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable hw"
