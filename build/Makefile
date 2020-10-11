@@ -142,6 +142,19 @@ hw/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/build
 .PHONY : hw/fast
 
+#=============================================================================
+# Target rules for targets named graphics_lib
+
+# Build rule for target.
+graphics_lib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 graphics_lib
+.PHONY : graphics_lib
+
+# fast build rule for target.
+graphics_lib/fast:
+	$(MAKE) $(MAKESILENT) -f graphics_lib/CMakeFiles/graphics_lib.dir/build.make graphics_lib/CMakeFiles/graphics_lib.dir/build
+.PHONY : graphics_lib/fast
+
 main.o: main.cu.o
 
 .PHONY : main.o
@@ -169,6 +182,33 @@ main.cu.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/main.cu.s
 .PHONY : main.cu.s
 
+otb_window.o: otb_window.cpp.o
+
+.PHONY : otb_window.o
+
+# target to build an object file
+otb_window.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/otb_window.cpp.o
+.PHONY : otb_window.cpp.o
+
+otb_window.i: otb_window.cpp.i
+
+.PHONY : otb_window.i
+
+# target to preprocess a source file
+otb_window.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/otb_window.cpp.i
+.PHONY : otb_window.cpp.i
+
+otb_window.s: otb_window.cpp.s
+
+.PHONY : otb_window.s
+
+# target to generate assembly for a file
+otb_window.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/otb_window.cpp.s
+.PHONY : otb_window.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -177,10 +217,14 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... graphics_lib"
 	@echo "... hw"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... otb_window.o"
+	@echo "... otb_window.i"
+	@echo "... otb_window.s"
 .PHONY : help
 
 

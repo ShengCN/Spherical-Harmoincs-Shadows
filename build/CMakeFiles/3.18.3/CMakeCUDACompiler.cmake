@@ -59,6 +59,6 @@ set(CMAKE_CUDA_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")
 
 set(CMAKE_CUDA_RUNTIME_LIBRARY_DEFAULT "STATIC")
 
-set(CMAKE_LINKER "/usr/bin/x86_64-linux-gnu-ld")
-set(CMAKE_AR "/usr/bin/x86_64-linux-gnu-ar")
+set(CMAKE_LINKER "/usr/bin/ld")
+set(CMAKE_AR "/usr/bin/ar")
 set(CMAKE_MT "")
