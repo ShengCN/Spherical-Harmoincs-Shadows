@@ -35,6 +35,6 @@ void main(){
         col = vs_norm;
     }
 
-    col = vs_color;
+    // col = vs_color;
     frag_color = vec4(col, 1.0f);
 }

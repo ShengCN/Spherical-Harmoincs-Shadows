@@ -8,6 +8,7 @@
 #include "graphics_lib/Utilities/Utils.h"
 #include "graphics_lib/Utilities/model_loader.h"
 
+#include "lab5.h"
 using namespace purdue;
 
 otb_window::otb_window() {
@@ -132,6 +133,9 @@ void otb_window::init_scene() {
 	int h, w;
 	glfwGetWindowSize(_window, &w, &h);
 	m_engine.test_scene(w,h);
+	auto mesh_ptr = m_engine.get_mesh(1);
+	lab5_init(100, 100,mesh_ptr);
+	m_engine.look_at(mesh_ptr->get_id());
 
 	// const std::string ground_file = "Meshes/plane.obj";
 	// const std::string target_file = "Meshes/result_test_009260_512.obj"; 
@@ -250,7 +254,11 @@ void otb_window::draw_gui() {
 	if(ImGui::Button("save")) {
 		save_framebuffer("test.png");
 	}
+	ImGui::SameLine();
 	if (ImGui::Button("dbg")) {
+		auto target_mesh = m_engine.get_mesh(1); 
+		lab5(target_mesh);
+		m_engine.look_at(target_mesh->get_id());
 	}
 	ImGui::End();
 
@@ -260,7 +268,7 @@ void otb_window::draw_gui() {
 }
 
 void otb_window::render(int iter) {
-	glClearColor(0.0f,0.0f,0.0f,0.0f);
+	glClearColor(0.0f,0.0f,0.0f,1.0f);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	m_engine.render(iter);
 }

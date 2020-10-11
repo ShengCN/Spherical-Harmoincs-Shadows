@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/hw.dir/cmake_device_link.o"
-  "CMakeFiles/hw.dir/main.cu.o"
+  "CMakeFiles/hw.dir/lab5.cu.o"
+  "CMakeFiles/hw.dir/main.cpp.o"
   "CMakeFiles/hw.dir/otb_window.cpp.o"
   "hw"
   "hw.pdb"

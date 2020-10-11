@@ -155,32 +155,59 @@ graphics_lib/fast:
 	$(MAKE) $(MAKESILENT) -f graphics_lib/CMakeFiles/graphics_lib.dir/build.make graphics_lib/CMakeFiles/graphics_lib.dir/build
 .PHONY : graphics_lib/fast
 
-main.o: main.cu.o
+lab5.o: lab5.cu.o
+
+.PHONY : lab5.o
+
+# target to build an object file
+lab5.cu.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/lab5.cu.o
+.PHONY : lab5.cu.o
+
+lab5.i: lab5.cu.i
+
+.PHONY : lab5.i
+
+# target to preprocess a source file
+lab5.cu.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/lab5.cu.i
+.PHONY : lab5.cu.i
+
+lab5.s: lab5.cu.s
+
+.PHONY : lab5.s
+
+# target to generate assembly for a file
+lab5.cu.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/lab5.cu.s
+.PHONY : lab5.cu.s
+
+main.o: main.cpp.o
 
 .PHONY : main.o
 
 # target to build an object file
-main.cu.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/main.cu.o
-.PHONY : main.cu.o
+main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/main.cpp.o
+.PHONY : main.cpp.o
 
-main.i: main.cu.i
+main.i: main.cpp.i
 
 .PHONY : main.i
 
 # target to preprocess a source file
-main.cu.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/main.cu.i
-.PHONY : main.cu.i
+main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/main.cpp.i
+.PHONY : main.cpp.i
 
-main.s: main.cu.s
+main.s: main.cpp.s
 
 .PHONY : main.s
 
 # target to generate assembly for a file
-main.cu.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/main.cu.s
-.PHONY : main.cu.s
+main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/main.cpp.s
+.PHONY : main.cpp.s
 
 otb_window.o: otb_window.cpp.o
 
@@ -219,6 +246,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... graphics_lib"
 	@echo "... hw"
+	@echo "... lab5.o"
+	@echo "... lab5.i"
+	@echo "... lab5.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

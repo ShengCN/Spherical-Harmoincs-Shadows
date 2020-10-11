@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.8 )
 project(CUDA_Proj LANGUAGES CXX CUDA)
 
 find_package(glfw3 3.3. REQUIRED)
+find_package(CUDA  REQUIRED)
+
 add_subdirectory(graphics_lib)
 
 # ImGui
@@ -25,6 +27,7 @@ PROPERTIES
 target_include_directories(hw PUBLIC
 ${PROJECT_SOURCE_DIR}
 ${PROJECT_SOURCE_DIR}/graphics_lib/Dep
+${CUDA_INCLUDE_DIRS}
 )
 
 target_link_libraries(hw PUBLIC 

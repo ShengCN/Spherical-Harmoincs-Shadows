@@ -76,22 +76,35 @@ include CMakeFiles/hw.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/hw.dir/flags.make
 
-CMakeFiles/hw.dir/main.cu.o: CMakeFiles/hw.dir/flags.make
-CMakeFiles/hw.dir/main.cu.o: ../main.cu
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ysheng/Documents/CGT_620/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CUDA object CMakeFiles/hw.dir/main.cu.o"
-	/usr/local/cuda-10.1/bin/nvcc  $(CUDA_DEFINES) $(CUDA_INCLUDES) $(CUDA_FLAGS) -x cu -dc /home/ysheng/Documents/CGT_620/main.cu -o CMakeFiles/hw.dir/main.cu.o
+CMakeFiles/hw.dir/lab5.cu.o: CMakeFiles/hw.dir/flags.make
+CMakeFiles/hw.dir/lab5.cu.o: ../lab5.cu
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ysheng/Documents/CGT_620/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CUDA object CMakeFiles/hw.dir/lab5.cu.o"
+	/usr/local/cuda-10.1/bin/nvcc  $(CUDA_DEFINES) $(CUDA_INCLUDES) $(CUDA_FLAGS) -x cu -dc /home/ysheng/Documents/CGT_620/lab5.cu -o CMakeFiles/hw.dir/lab5.cu.o
 
-CMakeFiles/hw.dir/main.cu.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CUDA source to CMakeFiles/hw.dir/main.cu.i"
+CMakeFiles/hw.dir/lab5.cu.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CUDA source to CMakeFiles/hw.dir/lab5.cu.i"
 	$(CMAKE_COMMAND) -E cmake_unimplemented_variable CMAKE_CUDA_CREATE_PREPROCESSED_SOURCE
 
-CMakeFiles/hw.dir/main.cu.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CUDA source to assembly CMakeFiles/hw.dir/main.cu.s"
+CMakeFiles/hw.dir/lab5.cu.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CUDA source to assembly CMakeFiles/hw.dir/lab5.cu.s"
 	$(CMAKE_COMMAND) -E cmake_unimplemented_variable CMAKE_CUDA_CREATE_ASSEMBLY_SOURCE
+
+CMakeFiles/hw.dir/main.cpp.o: CMakeFiles/hw.dir/flags.make
+CMakeFiles/hw.dir/main.cpp.o: ../main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ysheng/Documents/CGT_620/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/hw.dir/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/hw.dir/main.cpp.o -c /home/ysheng/Documents/CGT_620/main.cpp
+
+CMakeFiles/hw.dir/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/hw.dir/main.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ysheng/Documents/CGT_620/main.cpp > CMakeFiles/hw.dir/main.cpp.i
+
+CMakeFiles/hw.dir/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/hw.dir/main.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ysheng/Documents/CGT_620/main.cpp -o CMakeFiles/hw.dir/main.cpp.s
 
 CMakeFiles/hw.dir/otb_window.cpp.o: CMakeFiles/hw.dir/flags.make
 CMakeFiles/hw.dir/otb_window.cpp.o: ../otb_window.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ysheng/Documents/CGT_620/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/hw.dir/otb_window.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ysheng/Documents/CGT_620/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/hw.dir/otb_window.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/hw.dir/otb_window.cpp.o -c /home/ysheng/Documents/CGT_620/otb_window.cpp
 
 CMakeFiles/hw.dir/otb_window.cpp.i: cmake_force
@@ -104,13 +117,15 @@ CMakeFiles/hw.dir/otb_window.cpp.s: cmake_force
 
 # Object files for target hw
 hw_OBJECTS = \
-"CMakeFiles/hw.dir/main.cu.o" \
+"CMakeFiles/hw.dir/lab5.cu.o" \
+"CMakeFiles/hw.dir/main.cpp.o" \
 "CMakeFiles/hw.dir/otb_window.cpp.o"
 
 # External object files for target hw
 hw_EXTERNAL_OBJECTS =
 
-CMakeFiles/hw.dir/cmake_device_link.o: CMakeFiles/hw.dir/main.cu.o
+CMakeFiles/hw.dir/cmake_device_link.o: CMakeFiles/hw.dir/lab5.cu.o
+CMakeFiles/hw.dir/cmake_device_link.o: CMakeFiles/hw.dir/main.cpp.o
 CMakeFiles/hw.dir/cmake_device_link.o: CMakeFiles/hw.dir/otb_window.cpp.o
 CMakeFiles/hw.dir/cmake_device_link.o: CMakeFiles/hw.dir/build.make
 CMakeFiles/hw.dir/cmake_device_link.o: graphics_lib/libgraphics_lib.so
@@ -121,7 +136,7 @@ CMakeFiles/hw.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libGL.so
 CMakeFiles/hw.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/librt.so
 CMakeFiles/hw.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libm.so
 CMakeFiles/hw.dir/cmake_device_link.o: CMakeFiles/hw.dir/dlink.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ysheng/Documents/CGT_620/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CUDA device code CMakeFiles/hw.dir/cmake_device_link.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ysheng/Documents/CGT_620/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CUDA device code CMakeFiles/hw.dir/cmake_device_link.o"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/hw.dir/dlink.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -131,13 +146,15 @@ CMakeFiles/hw.dir/build: CMakeFiles/hw.dir/cmake_device_link.o
 
 # Object files for target hw
 hw_OBJECTS = \
-"CMakeFiles/hw.dir/main.cu.o" \
+"CMakeFiles/hw.dir/lab5.cu.o" \
+"CMakeFiles/hw.dir/main.cpp.o" \
 "CMakeFiles/hw.dir/otb_window.cpp.o"
 
 # External object files for target hw
 hw_EXTERNAL_OBJECTS =
 
-hw: CMakeFiles/hw.dir/main.cu.o
+hw: CMakeFiles/hw.dir/lab5.cu.o
+hw: CMakeFiles/hw.dir/main.cpp.o
 hw: CMakeFiles/hw.dir/otb_window.cpp.o
 hw: CMakeFiles/hw.dir/build.make
 hw: graphics_lib/libgraphics_lib.so
@@ -149,7 +166,7 @@ hw: /usr/lib/x86_64-linux-gnu/librt.so
 hw: /usr/lib/x86_64-linux-gnu/libm.so
 hw: CMakeFiles/hw.dir/cmake_device_link.o
 hw: CMakeFiles/hw.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ysheng/Documents/CGT_620/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable hw"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ysheng/Documents/CGT_620/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable hw"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/hw.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

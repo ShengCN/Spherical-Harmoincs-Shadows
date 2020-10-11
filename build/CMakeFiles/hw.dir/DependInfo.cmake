@@ -5,7 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CUDA
-  "/home/ysheng/Documents/CGT_620/main.cu" "/home/ysheng/Documents/CGT_620/build/CMakeFiles/hw.dir/main.cu.o"
+  "/home/ysheng/Documents/CGT_620/lab5.cu" "/home/ysheng/Documents/CGT_620/build/CMakeFiles/hw.dir/lab5.cu.o"
   )
 set(CMAKE_CUDA_COMPILER_ID "NVIDIA")
 
@@ -21,11 +21,13 @@ set(CMAKE_TARGET_DEFINITIONS_CUDA
 set(CMAKE_CUDA_TARGET_INCLUDE_PATH
   "../"
   "../graphics_lib/Dep"
+  "/usr/local/cuda-10.1/include"
   "../graphics_lib/Dep/stb"
   "../graphics_lib/Dep/imgui"
   "../graphics_lib"
   )
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/ysheng/Documents/CGT_620/main.cpp" "/home/ysheng/Documents/CGT_620/build/CMakeFiles/hw.dir/main.cpp.o"
   "/home/ysheng/Documents/CGT_620/otb_window.cpp" "/home/ysheng/Documents/CGT_620/build/CMakeFiles/hw.dir/otb_window.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
@@ -42,6 +44,7 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../"
   "../graphics_lib/Dep"
+  "/usr/local/cuda-10.1/include"
   "../graphics_lib/Dep/stb"
   "../graphics_lib/Dep/imgui"
   "../graphics_lib"
