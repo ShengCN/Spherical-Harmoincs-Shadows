@@ -1,0 +1,65 @@
+Performing C++ SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
+Change Dir: /home/ysheng/Documents/CGT_620/testbuild/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_5668e/fast && /usr/bin/make  -f CMakeFiles/cmTC_5668e.dir/build.make CMakeFiles/cmTC_5668e.dir/build
+make[1]: Entering directory '/home/ysheng/Documents/CGT_620/testbuild/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_5668e.dir/src.cxx.o
+/usr/bin/c++   -DCMAKE_HAVE_LIBC_PTHREAD -o CMakeFiles/cmTC_5668e.dir/src.cxx.o -c /home/ysheng/Documents/CGT_620/testbuild/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_5668e
+/home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5668e.dir/link.txt --verbose=1
+/usr/bin/c++  -DCMAKE_HAVE_LIBC_PTHREAD CMakeFiles/cmTC_5668e.dir/src.cxx.o -o cmTC_5668e 
+CMakeFiles/cmTC_5668e.dir/src.cxx.o: In function `main':
+src.cxx:(.text+0x3e): undefined reference to `pthread_create'
+src.cxx:(.text+0x4a): undefined reference to `pthread_detach'
+src.cxx:(.text+0x56): undefined reference to `pthread_cancel'
+src.cxx:(.text+0x67): undefined reference to `pthread_join'
+src.cxx:(.text+0x7b): undefined reference to `pthread_atfork'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_5668e.dir/build.make:105: recipe for target 'cmTC_5668e' failed
+make[1]: *** [cmTC_5668e] Error 1
+make[1]: Leaving directory '/home/ysheng/Documents/CGT_620/testbuild/CMakeFiles/CMakeTmp'
+Makefile:140: recipe for target 'cmTC_5668e/fast' failed
+make: *** [cmTC_5668e/fast] Error 2
+
+
+Source file was:
+#include <pthread.h>
+
+void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_cancel(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/ysheng/Documents/CGT_620/testbuild/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_fa4c8/fast && /usr/bin/make  -f CMakeFiles/cmTC_fa4c8.dir/build.make CMakeFiles/cmTC_fa4c8.dir/build
+make[1]: Entering directory '/home/ysheng/Documents/CGT_620/testbuild/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_fa4c8.dir/CheckFunctionExists.cxx.o
+/usr/bin/c++   -DCHECK_FUNCTION_EXISTS=pthread_create -o CMakeFiles/cmTC_fa4c8.dir/CheckFunctionExists.cxx.o -c /home/ysheng/Documents/CGT_620/testbuild/CMakeFiles/CheckLibraryExists/CheckFunctionExists.cxx
+Linking CXX executable cmTC_fa4c8
+/home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fa4c8.dir/link.txt --verbose=1
+/usr/bin/c++  -DCHECK_FUNCTION_EXISTS=pthread_create CMakeFiles/cmTC_fa4c8.dir/CheckFunctionExists.cxx.o -o cmTC_fa4c8  -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_fa4c8.dir/build.make:105: recipe for target 'cmTC_fa4c8' failed
+make[1]: *** [cmTC_fa4c8] Error 1
+make[1]: Leaving directory '/home/ysheng/Documents/CGT_620/testbuild/CMakeFiles/CMakeTmp'
+Makefile:140: recipe for target 'cmTC_fa4c8/fast' failed
+make: *** [cmTC_fa4c8/fast] Error 2
+
+
+

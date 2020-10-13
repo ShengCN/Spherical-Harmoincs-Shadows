@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.8 )
 project(CUDA_Proj LANGUAGES CXX CUDA)
 
-find_package(glfw3 3.3. REQUIRED)
+# find_package(glfw3 3.3. REQUIRED)
 find_package(CUDA  REQUIRED)
 FIND_PACKAGE(OpenMP REQUIRED)
 IF (OPENMP_FOUND) 
@@ -11,6 +11,7 @@ IF (OPENMP_FOUND)
 ENDIF()  
 
 add_subdirectory(graphics_lib)
+add_subdirectory(graphics_lib/Dep/glfw)
 
 # ImGui
 add_compile_definitions(IMGUI_IMPL_OPENGL_LOADER_GLAD=1)
