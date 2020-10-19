@@ -66,7 +66,11 @@ float P(int l, int m, float x) {
 
 constexpr float sqrt2 = std::sqrt(2.0f);
 float SH(int l, int m, float theta, float phi) {
-    if (m==0) return K(l,0) * P(l, 0, cos(theta));
-    else if (m > 0) return sqrt2 * K(l,m) * cos(m * phi) * P(l, m, cos(theta));
-    else return sqrt2 * K(l,-m) * sin(-m * phi) * P(l, -m, cos(theta)); 
+    if (m==0) 
+        return K(l,0) * P(l, 0, cos(theta));
+    
+    if (m > 0) 
+        return sqrt2 * K(l,m) * cos(m * phi) * P(l, m, cos(theta));
+    
+    return sqrt2 * K(l,-m) * sin(-m * phi) * P(l, -m, cos(theta)); 
 }
