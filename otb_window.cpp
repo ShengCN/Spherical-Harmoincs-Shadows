@@ -227,22 +227,40 @@ void otb_window::draw_gui() {
 	if(ImGui::Button("save")) {
 		save_framebuffer("test.png");
 	}
-	ImGui::SameLine();
+
+	static int point_size = 1;
+	ImGui::SliderInt("Point size", &point_size, 1, 100);
+	glPointSize(point_size);
+
+	static int l = 0;
+	static int m = 0;
+	ImGui::SliderInt("l", &l, 0, 7);
+	ImGui::SliderInt("m", &m, -l, l);
+
 	if (ImGui::Button("dbg")) {
-		auto sphere_samples = uniform_sphere_3d_samples(10000);
-		for(auto s:sphere_samples) {
-			INFO(pd::to_string(s));
-		}
-		
+		auto sphere_samples = uniform_sphere_2d_samples(10000);
+
 		auto mesh_ptr = m_engine.get_rendering_meshes().back();
 		mesh_ptr->clear_vertices();
-		mesh_ptr->m_verts = sphere_samples;
 
+		for (int j = 0; j <= l; ++j) {
+			for(int i=-j; i <=j; ++i) {
+				glm::vec3 offset((float)i,(float)(l-j - (float)j/2),0.0f);
+				for(int si = 0; si < sphere_samples.size(); ++si) {
+					float a = sphere_samples[si].x, b = sphere_samples[si].y;
+
+					vec3 p(std::sin(a) * std::cos(b), std::cos(a),std::sin(a) * std::sin(b));
+					float sh = std::abs(SH(j, i, a, b));
+					mesh_ptr->m_verts.push_back(p * sh + offset * 1.5f);
+				}
+			}
+		}
+		
 		m_engine.set_cur_render_type(draw_type::points);
 		m_engine.set_mesh_color(mesh_ptr, vec3(1.0f));
-		
 		m_engine.look_at(mesh_ptr->get_id());
 	}
+
 	ImGui::End();
 
 	 //ImGui::ShowTestWindow();

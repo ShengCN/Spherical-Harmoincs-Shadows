@@ -2,7 +2,7 @@
 
 using namespace glm;
 
-int w = 1024, h = 720;
+int w = 1720, h = 1280;
 int main(int argc, char* argv[]) {
 
     otb_window wnd;

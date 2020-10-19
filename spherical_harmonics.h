@@ -13,3 +13,5 @@ struct SH_sample {
     glm::vec3 sph;
     float coeffect;
 };
+
+float SH(int l, int m, float theta, float phi);
