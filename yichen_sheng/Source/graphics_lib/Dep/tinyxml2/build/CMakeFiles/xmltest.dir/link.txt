@@ -1,1 +1,0 @@
-/usr/bin/c++    -rdynamic CMakeFiles/xmltest.dir/xmltest.cpp.o  -o xmltest -Wl,-rpath,/home/ysheng/Documents/paper_project/adobe/OGL_EXP/graphics_lib/Dep/tinyxml2/build libtinyxml2.so.7.1.0 

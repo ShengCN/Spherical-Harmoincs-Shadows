@@ -5,9 +5,9 @@ find_package(OpenGL REQUIRED)
 
 set (CMAKE_CXX_STANDARD 11)
 
+
 # ImGui
 add_compile_definitions(IMGUI_IMPL_OPENGL_LOADER_GLAD=1)
-
 file(GLOB render_src
     "${PROJECT_SOURCE_DIR}/Render/*.cpp"
     "${PROJECT_SOURCE_DIR}/Dep/glad/*.c"

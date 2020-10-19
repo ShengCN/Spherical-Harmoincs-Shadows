@@ -1132,3 +1132,87 @@ Parsed CXX OpenMP implicit link information from above output:
   implicit fwks: []
 
 
+Determining if the function XOpenDisplay exists in the /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so passed with the following output:
+Change Dir: /home/ysheng/Documents/CGT_620/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_a157d/fast && /usr/bin/make  -f CMakeFiles/cmTC_a157d.dir/build.make CMakeFiles/cmTC_a157d.dir/build
+make[1]: Entering directory '/home/ysheng/Documents/CGT_620/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_a157d.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=XOpenDisplay -o CMakeFiles/cmTC_a157d.dir/CheckFunctionExists.c.o -c /home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/share/cmake-3.18/Modules/CheckFunctionExists.c
+Linking C executable cmTC_a157d
+/home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a157d.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=XOpenDisplay  -fopenmp  CMakeFiles/cmTC_a157d.dir/CheckFunctionExists.c.o -o cmTC_a157d  /usr/lib/x86_64-linux-gnu/libX11.so /usr/lib/x86_64-linux-gnu/libXext.so 
+make[1]: Leaving directory '/home/ysheng/Documents/CGT_620/build/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function gethostbyname exists passed with the following output:
+Change Dir: /home/ysheng/Documents/CGT_620/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_02d2f/fast && /usr/bin/make  -f CMakeFiles/cmTC_02d2f.dir/build.make CMakeFiles/cmTC_02d2f.dir/build
+make[1]: Entering directory '/home/ysheng/Documents/CGT_620/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_02d2f.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=gethostbyname -o CMakeFiles/cmTC_02d2f.dir/CheckFunctionExists.c.o -c /home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/share/cmake-3.18/Modules/CheckFunctionExists.c
+Linking C executable cmTC_02d2f
+/home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_02d2f.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=gethostbyname  -fopenmp  CMakeFiles/cmTC_02d2f.dir/CheckFunctionExists.c.o -o cmTC_02d2f 
+make[1]: Leaving directory '/home/ysheng/Documents/CGT_620/build/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function connect exists passed with the following output:
+Change Dir: /home/ysheng/Documents/CGT_620/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_d3f37/fast && /usr/bin/make  -f CMakeFiles/cmTC_d3f37.dir/build.make CMakeFiles/cmTC_d3f37.dir/build
+make[1]: Entering directory '/home/ysheng/Documents/CGT_620/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_d3f37.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=connect -o CMakeFiles/cmTC_d3f37.dir/CheckFunctionExists.c.o -c /home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/share/cmake-3.18/Modules/CheckFunctionExists.c
+Linking C executable cmTC_d3f37
+/home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d3f37.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=connect  -fopenmp  CMakeFiles/cmTC_d3f37.dir/CheckFunctionExists.c.o -o cmTC_d3f37 
+make[1]: Leaving directory '/home/ysheng/Documents/CGT_620/build/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function remove exists passed with the following output:
+Change Dir: /home/ysheng/Documents/CGT_620/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_c6502/fast && /usr/bin/make  -f CMakeFiles/cmTC_c6502.dir/build.make CMakeFiles/cmTC_c6502.dir/build
+make[1]: Entering directory '/home/ysheng/Documents/CGT_620/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_c6502.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=remove -o CMakeFiles/cmTC_c6502.dir/CheckFunctionExists.c.o -c /home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/share/cmake-3.18/Modules/CheckFunctionExists.c
+Linking C executable cmTC_c6502
+/home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c6502.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=remove  -fopenmp  CMakeFiles/cmTC_c6502.dir/CheckFunctionExists.c.o -o cmTC_c6502 
+make[1]: Leaving directory '/home/ysheng/Documents/CGT_620/build/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function shmat exists passed with the following output:
+Change Dir: /home/ysheng/Documents/CGT_620/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_c011f/fast && /usr/bin/make  -f CMakeFiles/cmTC_c011f.dir/build.make CMakeFiles/cmTC_c011f.dir/build
+make[1]: Entering directory '/home/ysheng/Documents/CGT_620/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_c011f.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=shmat -o CMakeFiles/cmTC_c011f.dir/CheckFunctionExists.c.o -c /home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/share/cmake-3.18/Modules/CheckFunctionExists.c
+Linking C executable cmTC_c011f
+/home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c011f.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=shmat  -fopenmp  CMakeFiles/cmTC_c011f.dir/CheckFunctionExists.c.o -o cmTC_c011f 
+make[1]: Leaving directory '/home/ysheng/Documents/CGT_620/build/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function IceConnectionNumber exists in the ICE passed with the following output:
+Change Dir: /home/ysheng/Documents/CGT_620/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_48696/fast && /usr/bin/make  -f CMakeFiles/cmTC_48696.dir/build.make CMakeFiles/cmTC_48696.dir/build
+make[1]: Entering directory '/home/ysheng/Documents/CGT_620/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_48696.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=IceConnectionNumber -o CMakeFiles/cmTC_48696.dir/CheckFunctionExists.c.o -c /home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/share/cmake-3.18/Modules/CheckFunctionExists.c
+Linking C executable cmTC_48696
+/home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_48696.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=IceConnectionNumber  -fopenmp  CMakeFiles/cmTC_48696.dir/CheckFunctionExists.c.o -o cmTC_48696  -lICE 
+make[1]: Leaving directory '/home/ysheng/Documents/CGT_620/build/CMakeFiles/CMakeTmp'
+
+
+

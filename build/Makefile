@@ -75,16 +75,29 @@ CMAKE_BINARY_DIR = /home/ysheng/Documents/CGT_620/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
 
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
 
-.PHONY : rebuild_cache/fast
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -96,6 +109,39 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -155,32 +201,31 @@ graphics_lib/fast:
 	$(MAKE) $(MAKESILENT) -f graphics_lib/CMakeFiles/graphics_lib.dir/build.make graphics_lib/CMakeFiles/graphics_lib.dir/build
 .PHONY : graphics_lib/fast
 
-lab5.o: lab5.cu.o
+#=============================================================================
+# Target rules for targets named uninstall
 
-.PHONY : lab5.o
+# Build rule for target.
+uninstall: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 uninstall
+.PHONY : uninstall
 
-# target to build an object file
-lab5.cu.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/lab5.cu.o
-.PHONY : lab5.cu.o
+# fast build rule for target.
+uninstall/fast:
+	$(MAKE) $(MAKESILENT) -f graphics_lib/Dep/glfw/CMakeFiles/uninstall.dir/build.make graphics_lib/Dep/glfw/CMakeFiles/uninstall.dir/build
+.PHONY : uninstall/fast
 
-lab5.i: lab5.cu.i
+#=============================================================================
+# Target rules for targets named glfw
 
-.PHONY : lab5.i
+# Build rule for target.
+glfw: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 glfw
+.PHONY : glfw
 
-# target to preprocess a source file
-lab5.cu.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/lab5.cu.i
-.PHONY : lab5.cu.i
-
-lab5.s: lab5.cu.s
-
-.PHONY : lab5.s
-
-# target to generate assembly for a file
-lab5.cu.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/lab5.cu.s
-.PHONY : lab5.cu.s
+# fast build rule for target.
+glfw/fast:
+	$(MAKE) $(MAKESILENT) -f graphics_lib/Dep/glfw/src/CMakeFiles/glfw.dir/build.make graphics_lib/Dep/glfw/src/CMakeFiles/glfw.dir/build
+.PHONY : glfw/fast
 
 main.o: main.cpp.o
 
@@ -243,12 +288,15 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... install"
+	@echo "... install/local"
+	@echo "... install/strip"
+	@echo "... list_install_components"
 	@echo "... rebuild_cache"
+	@echo "... uninstall"
+	@echo "... glfw"
 	@echo "... graphics_lib"
 	@echo "... hw"
-	@echo "... lab5.o"
-	@echo "... lab5.i"
-	@echo "... lab5.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

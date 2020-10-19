@@ -9,7 +9,6 @@
 #include "graphics_lib/Utilities/model_loader.h"
 
 
-#include "lab5.h"
 using namespace purdue;
 
 otb_window::otb_window() {
@@ -130,15 +129,10 @@ int otb_window::create_window(int w, int h, const std::string title) {
 	return 1;
 }
 
-int map_w=256, map_h=256;
-int n = 1;
 void otb_window::init_scene() {
 	int h, w;
 	glfwGetWindowSize(_window, &w, &h);
 	m_engine.test_scene(w,h);
-	auto mesh_ptr = m_engine.get_mesh(1);
-	lab5_init(map_w, map_h,mesh_ptr);
-	m_engine.look_at(mesh_ptr->get_id(), vec3(0.0f,1.0f,1.0f));
 }
 
 void otb_window::show() {
@@ -217,8 +211,6 @@ void otb_window::reload_all_shaders() {
 	m_engine.reload_shaders();
 }
 
-extern float h_decrease_factor;
-extern float h_init_elevation;
 void otb_window::draw_gui() {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
@@ -228,9 +220,6 @@ void otb_window::draw_gui() {
 	ImGui::Begin("PC control");
 	// ImGui::SliderFloat("fov", &asset_manager::instance).cur_camera->_fov, 30.0f, 120.0f);
 	ImGui::SliderFloat("fov", &m_engine.get_render_ppc()->_fov, 5.0f, 120.0f);
-	ImGui::SliderInt("N", &n, 1, 1<<11);
-	ImGui::SliderFloat("Decrease factor", &h_decrease_factor, 0.0f, 1.0f);
-	ImGui::SliderFloat("Init elevation", &h_init_elevation, 0.0f, 0.05f);
 	if(ImGui::Button("reload shader")) {
 		reload_all_shaders();
 	}
@@ -239,20 +228,6 @@ void otb_window::draw_gui() {
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("dbg")) {
-		std::fstream out("data.txt", std::fstream::out);
-		if(out.is_open()) {
-			out << "n,total time,cuda time,cuda mem cpy,cuda mem cpy back\n";
-			auto target_mesh = m_engine.get_mesh(1); 
-			for(int i = 1; i < 1<<11; i += 20) {
-				float tt, t;
-				float memcpy_time, memcpy_back_time;
-				lab5(i, target_mesh,tt, t, memcpy_time, memcpy_back_time);
-				out << i << "," << tt << "," << t << "," << memcpy_time << "," << memcpy_back_time << std::endl;
-			}
-
-			m_engine.look_at(target_mesh->get_id(), vec3(0.0f,1.0f,1.0f));
-		}
-		out.close();
 	}
 	ImGui::End();
 

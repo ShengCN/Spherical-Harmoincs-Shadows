@@ -1,9 +1,0 @@
-/usr/local/lib/libtinyxml2.so.7.1.0
-/usr/local/lib/libtinyxml2.so.7
-/usr/local/lib/libtinyxml2.so
-/usr/local/include/tinyxml2.h
-/usr/local/lib/pkgconfig/tinyxml2.pc
-/usr/local/lib/cmake/tinyxml2/tinyxml2Config.cmake
-/usr/local/lib/cmake/tinyxml2/tinyxml2ConfigVersion.cmake
-/usr/local/lib/cmake/tinyxml2/tinyxml2Targets.cmake
-/usr/local/lib/cmake/tinyxml2/tinyxml2Targets-noconfig.cmake
