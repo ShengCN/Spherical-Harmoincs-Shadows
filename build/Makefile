@@ -281,6 +281,33 @@ otb_window.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/otb_window.cpp.s
 .PHONY : otb_window.cpp.s
 
+spherical_harmonics.o: spherical_harmonics.cpp.o
+
+.PHONY : spherical_harmonics.o
+
+# target to build an object file
+spherical_harmonics.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/spherical_harmonics.cpp.o
+.PHONY : spherical_harmonics.cpp.o
+
+spherical_harmonics.i: spherical_harmonics.cpp.i
+
+.PHONY : spherical_harmonics.i
+
+# target to preprocess a source file
+spherical_harmonics.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/spherical_harmonics.cpp.i
+.PHONY : spherical_harmonics.cpp.i
+
+spherical_harmonics.s: spherical_harmonics.cpp.s
+
+.PHONY : spherical_harmonics.s
+
+# target to generate assembly for a file
+spherical_harmonics.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/spherical_harmonics.cpp.s
+.PHONY : spherical_harmonics.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -303,6 +330,9 @@ help:
 	@echo "... otb_window.o"
 	@echo "... otb_window.i"
 	@echo "... otb_window.s"
+	@echo "... spherical_harmonics.o"
+	@echo "... spherical_harmonics.i"
+	@echo "... spherical_harmonics.s"
 .PHONY : help
 
 

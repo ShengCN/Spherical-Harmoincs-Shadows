@@ -26,7 +26,7 @@ class ppc
 public:
 	glm::vec3 _position;
 	glm::vec3 _front;
-	glm::vec3 _worldUp;	// default is (0.0f,1.0f,0.0f)
+	glm::vec3 _up;	// default is (0.0f,1.0f,0.0f)
 	float _fov, _near, _far;
 	int _width, _height;
 
@@ -38,7 +38,7 @@ public:
 		if (output.is_open()) {
 			output.write((char*)&_position[0], sizeof(glm::vec3));
 			output.write((char*)&_front[0], sizeof(glm::vec3));
-			output.write((char*)&_worldUp[0], sizeof(glm::vec3));
+			output.write((char*)&_up[0], sizeof(glm::vec3));
 			output.write((char*)&_fov, sizeof(float));
 			output.write((char*)&_near, sizeof(float));
 			output.write((char*)&_far, sizeof(float));
@@ -58,7 +58,7 @@ public:
 		if (input.is_open()) {
 			input.read((char*)&_position[0], sizeof(glm::vec3));
 			input.read((char*)&_front[0], sizeof(glm::vec3));
-			input.read((char*)&_worldUp[0], sizeof(glm::vec3));
+			input.read((char*)&_up[0], sizeof(glm::vec3));
 			input.read((char*)&_fov, sizeof(float));
 			input.read((char*)&_near, sizeof(float));
 			input.read((char*)&_far, sizeof(float));

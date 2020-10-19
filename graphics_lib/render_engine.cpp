@@ -7,6 +7,7 @@
 render_engine::render_engine() {
 	m_draw_render = true;
 	m_draw_visualize = false;
+	m_current_draw_type = draw_type::triangle;
 }
 
 void render_engine::test_scene(int w, int h) {
@@ -42,8 +43,12 @@ void render_engine::stand_on_plane(int mesh_id, vec3 p, vec3 n) {
 	mesh_ptr->add_world_transate(trans_vec); 
 }
 
+void render_engine::set_cur_render_type(draw_type type) {
+	m_current_draw_type = type;
+}
+
 void render_engine::render(int frame) {	
-	rendering_params params = { cur_manager.cur_camera, cur_manager.lights, frame, draw_type::triangle};
+	rendering_params params = { cur_manager.cur_camera, cur_manager.lights, frame, m_current_draw_type};
 
 	if (m_draw_render) {
 		render_scene(cur_manager.render_scene, params);

@@ -6,6 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/ysheng/Documents/CGT_620/main.cpp" "/home/ysheng/Documents/CGT_620/build/CMakeFiles/hw.dir/main.cpp.o"
   "/home/ysheng/Documents/CGT_620/otb_window.cpp" "/home/ysheng/Documents/CGT_620/build/CMakeFiles/hw.dir/otb_window.cpp.o"
+  "/home/ysheng/Documents/CGT_620/spherical_harmonics.cpp" "/home/ysheng/Documents/CGT_620/build/CMakeFiles/hw.dir/spherical_harmonics.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

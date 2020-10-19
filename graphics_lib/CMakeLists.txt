@@ -19,6 +19,7 @@ file(GLOB render_src
     "${PROJECT_SOURCE_DIR}/Dep/imgui/examples/imgui_impl_glfw.cpp"
     "${PROJECT_SOURCE_DIR}/Dep/imgui/examples/imgui_impl_opengl3.cpp")
 
+add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
 find_package(Boost COMPONENTS system filesystem REQUIRED)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/Dep/glm)

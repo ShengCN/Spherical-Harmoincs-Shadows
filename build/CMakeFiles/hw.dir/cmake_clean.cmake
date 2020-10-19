@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/hw.dir/main.cpp.o"
   "CMakeFiles/hw.dir/otb_window.cpp.o"
+  "CMakeFiles/hw.dir/spherical_harmonics.cpp.o"
   "hw"
   "hw.pdb"
 )

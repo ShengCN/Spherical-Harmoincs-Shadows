@@ -170,16 +170,16 @@ graphics_lib/Dep/glm/clean:
 # Target rules for target CMakeFiles/hw.dir
 
 # All Build rule for target.
-CMakeFiles/hw.dir/all: graphics_lib/Dep/glfw/src/CMakeFiles/glfw.dir/all
 CMakeFiles/hw.dir/all: graphics_lib/CMakeFiles/graphics_lib.dir/all
+CMakeFiles/hw.dir/all: graphics_lib/Dep/glfw/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw.dir/build.make CMakeFiles/hw.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ysheng/Documents/CGT_620/build/CMakeFiles --progress-num=40,41,42 "Built target hw"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ysheng/Documents/CGT_620/build/CMakeFiles --progress-num=40,41,42,43 "Built target hw"
 .PHONY : CMakeFiles/hw.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/hw.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ysheng/Documents/CGT_620/build/CMakeFiles 42
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ysheng/Documents/CGT_620/build/CMakeFiles 43
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/hw.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/ysheng/Documents/CGT_620/build/CMakeFiles 0
 .PHONY : CMakeFiles/hw.dir/rule

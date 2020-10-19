@@ -5,7 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}",
-                "${workspaceFolder}"
+                "${workspaceFolder}/graphics_lib/**",
+                "${workspaceFolder}/graphics_lib/Render/*",
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

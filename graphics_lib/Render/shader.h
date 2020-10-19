@@ -4,7 +4,8 @@
 #include "ppc.h"
 enum class draw_type {
 	triangle,
-	line_segments
+	line_segments,
+	points
 };
 
 struct rendering_params {

@@ -57,6 +57,7 @@ public:
 	void remove_mesh(int mesh_id);
 	void recompute_normal(int mesh_id);
 	void stand_on_plane(int mesh_id, vec3 p, vec3 n);
+	void set_cur_render_type(draw_type type);
 
 	//------- Rendering --------//
 	void draw_render(bool trigger) { m_draw_render = trigger; }
@@ -80,4 +81,5 @@ private:
 	bool m_draw_render, m_draw_visualize;
 	bool m_vis_frame_mode;
 	GLuint m_quad_vao;
+	draw_type m_current_draw_type;
 };

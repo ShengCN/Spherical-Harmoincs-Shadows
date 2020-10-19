@@ -6,5 +6,5 @@ CXX_DEFINES = -DBOOST_ALL_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_
 
 CXX_INCLUDES = -I/home/ysheng/Documents/CGT_620 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/usr/local/cuda-10.1/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include
 
-CXX_FLAGS = -fopenmp
+CXX_FLAGS = -g -fopenmp
 

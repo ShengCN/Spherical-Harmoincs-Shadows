@@ -17,7 +17,7 @@ ppc::ppc(int w, int h, float fov, float p_near, float p_far) :
 	_near(p_near),
 	_far(p_far),
 	_position(0.0f, 0.35f, 1.3f), 
-	_worldUp(0.0f, 1.0f, 0.0f),
+	_up(0.0f, 1.0f, 0.0f),
 	m_pressed(false),
 	m_trackball(true){
 }
@@ -30,7 +30,7 @@ vec3 ppc::GetRight()
 {
 	vec3 view = GetViewVec();
 
-	return cross(view, _worldUp);
+	return cross(view, _up);
 }
 
 vec3 ppc::GetUp()
@@ -42,7 +42,7 @@ void ppc::PositionAndOrient(vec3 p, vec3 lookatP, vec3 up)
 {
 	_position = p;
 	_front = glm::normalize(lookatP - p);
-	_worldUp = up;
+	_up = up;
 }
 
 glm::mat4 ppc::GetP() {
@@ -51,7 +51,7 @@ glm::mat4 ppc::GetP() {
 
 glm::mat4 ppc::GetV()
 {
-	return glm::lookAt(_position, _position + _front, _worldUp);
+	return glm::lookAt(_position, _position + _front, _up);
 	// return glm::lookAt(_position, target, _worldUp);
 }
 
@@ -175,7 +175,7 @@ void ppc::mouse_move(int x, int y) {
 	}
 	else {
 		// use trackball
-		PositionAndOrient(glm::vec3(glm::rotate(rot_ang, rot_axis) * vec4(m_last_position,0.0f)), vec3(0.0f), vec3(0.0f,1.0f,0.0f));
+		PositionAndOrient(glm::vec3(glm::rotate(rot_ang, rot_axis) * vec4(m_last_position,0.0f)), vec3(0.0f), _up);
 	}
 }
 

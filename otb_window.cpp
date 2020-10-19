@@ -8,6 +8,7 @@
 #include "graphics_lib/Utilities/Utils.h"
 #include "graphics_lib/Utilities/model_loader.h"
 
+#include "spherical_harmonics.h"
 
 using namespace purdue;
 
@@ -228,6 +229,19 @@ void otb_window::draw_gui() {
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("dbg")) {
+		auto sphere_samples = uniform_sphere_3d_samples(10000);
+		for(auto s:sphere_samples) {
+			INFO(pd::to_string(s));
+		}
+		
+		auto mesh_ptr = m_engine.get_rendering_meshes().back();
+		mesh_ptr->clear_vertices();
+		mesh_ptr->m_verts = sphere_samples;
+
+		m_engine.set_cur_render_type(draw_type::points);
+		m_engine.set_mesh_color(mesh_ptr, vec3(1.0f));
+		
+		m_engine.look_at(mesh_ptr->get_id());
 	}
 	ImGui::End();
 
