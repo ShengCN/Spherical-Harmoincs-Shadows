@@ -26,16 +26,16 @@ std::vector<vec3> uniform_sphere_3d_samples(int n) {
     return ret;
 }
 
-int factorial(int l) {
-    int ret = 1;
+long long factorial(int l) {
+    long long ret = 1;
     for(int i = 2; i <= l; ++i) {
         ret = ret * i;
     }
     return ret;
 }
 
-int dfactorial(int l) {
-    int ret = 1;
+long long dfactorial(int l) {
+    long long ret = 1;
     for(int i = l; i >= 2.0; i=i-2) {
         ret *= i;
     }
