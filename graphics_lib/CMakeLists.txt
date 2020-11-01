@@ -34,7 +34,8 @@ ${Boost_INCLUDE_DIR})
 
 add_definitions(-DGLM_FORCE_RADIANS)
 target_link_libraries(graphics_lib 
-${Boost_LIBRARIES})
+${Boost_LIBRARIES}
+)
 
 target_link_libraries(graphics_lib ${OPENGL_gl_LIBRARY})
 
