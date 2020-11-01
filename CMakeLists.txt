@@ -3,15 +3,7 @@ project(CUDA_Proj LANGUAGES CXX CUDA)
 
 # find_package(glfw3 3.3. REQUIRED)
 find_package(CUDA  REQUIRED)
-FIND_PACKAGE(OpenMP REQUIRED)
-IF (OPENMP_FOUND) 
-    # SET(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler=${OpenMP_CXX_FLAGS}") 
-    SET(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler -fopenmp") 
-    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_CXX_FLAGS}") 
-ENDIF()  
-
 add_subdirectory(graphics_lib)
-add_subdirectory(graphics_lib/Dep/glfw)
 
 # ImGui
 add_compile_definitions(IMGUI_IMPL_OPENGL_LOADER_GLAD=1)
@@ -37,10 +29,6 @@ ${PROJECT_SOURCE_DIR}/graphics_lib/Dep
 ${CUDA_INCLUDE_DIRS}
 )
 
-target_link_libraries(hw PUBLIC 
+target_link_libraries(hw 
 graphics_lib
-glfw)
-
-if(OpenMP_CXX_FOUND)
-    target_link_libraries(hw PUBLIC OpenMP::OpenMP_CXX)
-endif()
+)

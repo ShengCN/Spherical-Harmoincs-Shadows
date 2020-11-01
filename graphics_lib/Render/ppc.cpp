@@ -151,8 +151,8 @@ void ppc::mouse_move(int x, int y) {
 	y = pd::clamp(y, 0, _height);
 
 	auto arcball_vector=[](int x, int y, int w, int h){
-		float x_fract = (float)x / w * 2.0 - 1.0, y_fract = 1.0 - (float)y / h * 2.0;
-		return glm::normalize(vec3(x_fract, y_fract, std::sqrt(1.0- x_fract * x_fract - y_fract * y_fract) ));
+		float x_fract = (float)x / w * 2.0f - 1.0f, y_fract = 1.0f - (float)y / h * 2.0f;
+		return glm::normalize(vec3(x_fract, y_fract, std::sqrt(1.0f - x_fract * x_fract - y_fract * y_fract) ));
 	};
 
 	vec3 last = arcball_vector(m_last_x, m_last_y, _width, _height), cur = arcball_vector(x, y, _width, _height);

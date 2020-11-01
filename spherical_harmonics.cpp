@@ -64,7 +64,7 @@ float P(int l, int m, float x) {
     return (x * (2.0f * l - 1.0f) * P(l-1, m, x) - (l+m-1) * P(l-2, m, x))/(l-m);
 }
 
-constexpr float sqrt2 = std::sqrt(2.0f);
+const float sqrt2 = std::sqrt(2.0f);
 float SH(int l, int m, float theta, float phi) {
     if (m==0) 
         return K(l,0) * P(l, 0, cos(theta));
