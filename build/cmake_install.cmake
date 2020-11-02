@@ -45,7 +45,6 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/ysheng/Documents/CGT_620/build/graphics_lib/cmake_install.cmake")
-  include("/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/cmake_install.cmake")
 
 endif()
 

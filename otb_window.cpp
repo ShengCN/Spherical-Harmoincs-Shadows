@@ -238,20 +238,17 @@ void otb_window::draw_gui() {
 	ImGui::SliderInt("m", &m, -l, l);
 
 	if (ImGui::Button("dbg")) {
-		auto sphere_samples = uniform_sphere_2d_samples(10000);
-
+		auto sh_samples = SH_init(l, 10000);
 		auto mesh_ptr = m_engine.get_rendering_meshes().back();
 		mesh_ptr->clear_vertices();
 
-		for (int j = 0; j <= l; ++j) {
-			for(int i=-j; i <=j; ++i) {
-				glm::vec3 offset((float)i,(float)(l-j - (float)j/2),0.0f);
-				for(int si = 0; si < sphere_samples.size(); ++si) {
-					float a = sphere_samples[si].x, b = sphere_samples[si].y;
-
-					vec3 p(std::sin(a) * std::cos(b), std::cos(a),std::sin(a) * std::sin(b));
-					float sh = std::abs(SH(j, i, a, b));
-					mesh_ptr->m_verts.push_back(p * sh + offset * 1.5f);
+		for(int si = 0; si < sh_samples.size(); ++si) {
+			int ind = 0;
+			for(int j = 0; j < l; ++j) {
+				for (int i = -j; i <= j; ++i) {
+					glm::vec3 offset((float)i,(float)(l-j - (float)j/2),0.0f);
+					float sh = std::abs(sh_samples[si].coeffs[ind++]);
+					mesh_ptr->m_verts.push_back(sh_samples[si].vec * sh + offset * 1.5f);
 				}
 			}
 		}

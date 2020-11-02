@@ -18,14 +18,14 @@
 BUILD_SHARED_LIBS:BOOL=OFF
 
 //The directory containing a CMake configuration file for Boost.
-Boost_DIR:PATH=/usr/lib/cmake/Boost-1.74.0
+Boost_DIR:PATH=/usr/local/lib/cmake/Boost-1.74.0
 
-Boost_FILESYSTEM_LIBRARY_RELEASE:STRING=/usr/lib/libboost_filesystem.so.1.74.0
+Boost_FILESYSTEM_LIBRARY_RELEASE:STRING=/usr/local/lib/libboost_filesystem.so.1.74.0
 
 //Path to a file.
-Boost_INCLUDE_DIR:PATH=/usr/include
+Boost_INCLUDE_DIR:PATH=/usr/local/include
 
-Boost_SYSTEM_LIBRARY_RELEASE:STRING=/usr/lib/libboost_system.so.1.74.0
+Boost_SYSTEM_LIBRARY_RELEASE:STRING=/usr/local/lib/libboost_system.so.1.74.0
 
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line
@@ -330,7 +330,7 @@ CUDA_GENERATED_OUTPUT_DIR:PATH=
 CUDA_HOST_COMPILATION_CPP:BOOL=ON
 
 //Host side compiler used by NVCC
-CUDA_HOST_COMPILER:FILEPATH=/usr/bin/cc
+CUDA_HOST_COMPILER:FILEPATH=
 
 //Path to a program.
 CUDA_NVCC_EXECUTABLE:FILEPATH=/usr/local/cuda-10.1/bin/nvcc
@@ -531,18 +531,6 @@ OPENGL_opengl_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libOpenGL.so
 
 //Path to a file.
 OPENGL_xmesa_INCLUDE_DIR:PATH=OPENGL_xmesa_INCLUDE_DIR-NOTFOUND
-
-//CXX compiler flags for OpenMP parallelization
-OpenMP_CXX_FLAGS:STRING=-fopenmp
-
-//CXX compiler libraries for OpenMP parallelization
-OpenMP_CXX_LIB_NAMES:STRING=gomp;pthread
-
-//Path to the gomp library for OpenMP
-OpenMP_gomp_LIBRARY:FILEPATH=/usr/lib/gcc/x86_64-linux-gnu/7/libgomp.so
-
-//Path to the pthread library for OpenMP
-OpenMP_pthread_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpthread.so
 
 //pkg-config executable
 PKG_CONFIG_EXECUTABLE:FILEPATH=/usr/bin/pkg-config
@@ -764,19 +752,16 @@ X11_xkbfile_INCLUDE_PATH:PATH=X11_xkbfile_INCLUDE_PATH-NOTFOUND
 X11_xkbfile_LIB:FILEPATH=X11_xkbfile_LIB-NOTFOUND
 
 //The directory containing a CMake configuration file for boost_filesystem.
-boost_filesystem_DIR:PATH=/usr/lib/cmake/boost_filesystem-1.74.0
+boost_filesystem_DIR:PATH=/usr/local/lib/cmake/boost_filesystem-1.74.0
 
 //The directory containing a CMake configuration file for boost_headers.
-boost_headers_DIR:PATH=/usr/lib/cmake/boost_headers-1.74.0
+boost_headers_DIR:PATH=/usr/local/lib/cmake/boost_headers-1.74.0
 
 //The directory containing a CMake configuration file for boost_system.
-boost_system_DIR:PATH=/usr/lib/cmake/boost_system-1.74.0
-
-//The directory containing a CMake configuration file for glfw3.
-glfw3_DIR:PATH=/usr/local/lib/cmake/glfw3
+boost_system_DIR:PATH=/usr/local/lib/cmake/boost_system-1.74.0
 
 //Dependencies for the target
-graphics_lib_LIB_DEPENDS:STATIC=general;Boost::system;general;Boost::filesystem;general;/usr/lib/x86_64-linux-gnu/libGL.so;
+graphics_lib_LIB_DEPENDS:STATIC=general;Boost::system;general;Boost::filesystem;general;/usr/lib/x86_64-linux-gnu/libGL.so;general;glfw;
 
 //Value Computed by CMake
 libgraphics_lib_BINARY_DIR:STATIC=/home/ysheng/Documents/CGT_620/build/graphics_lib
@@ -1104,15 +1089,11 @@ CUDA_run_nvcc:INTERNAL=/home/ysheng/Downloads/cmake-3.18.3-Linux-x86_64/share/cm
 //ADVANCED property for variable: DOXYGEN_EXECUTABLE
 DOXYGEN_EXECUTABLE-ADVANCED:INTERNAL=1
 //Details about finding Boost
-FIND_PACKAGE_MESSAGE_DETAILS_Boost:INTERNAL=[/usr/lib/cmake/Boost-1.74.0/BoostConfig.cmake][cfound components: system filesystem ][v1.74.0()]
+FIND_PACKAGE_MESSAGE_DETAILS_Boost:INTERNAL=[/usr/local/lib/cmake/Boost-1.74.0/BoostConfig.cmake][cfound components: system filesystem ][v1.74.0()]
 //Details about finding CUDA
 FIND_PACKAGE_MESSAGE_DETAILS_CUDA:INTERNAL=[/usr/local/cuda-10.1][/usr/local/cuda-10.1/bin/nvcc][/usr/local/cuda-10.1/include][/usr/local/cuda-10.1/lib64/libcudart_static.a][v10.1()]
 //Details about finding OpenGL
 FIND_PACKAGE_MESSAGE_DETAILS_OpenGL:INTERNAL=[/usr/lib/x86_64-linux-gnu/libOpenGL.so][/usr/lib/x86_64-linux-gnu/libGLX.so][/usr/include][c ][v()]
-//Details about finding OpenMP
-FIND_PACKAGE_MESSAGE_DETAILS_OpenMP:INTERNAL=[TRUE][c ][v4.5()]
-//Details about finding OpenMP_CXX
-FIND_PACKAGE_MESSAGE_DETAILS_OpenMP_CXX:INTERNAL=[-fopenmp][/usr/lib/gcc/x86_64-linux-gnu/7/libgomp.so][/usr/lib/x86_64-linux-gnu/libpthread.so][v4.5()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //Details about finding X11
@@ -1149,20 +1130,6 @@ OPENGL_glx_LIBRARY-ADVANCED:INTERNAL=1
 OPENGL_opengl_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OPENGL_xmesa_INCLUDE_DIR
 OPENGL_xmesa_INCLUDE_DIR-ADVANCED:INTERNAL=1
-//Result of TRY_COMPILE
-OpenMP_COMPILE_RESULT_CXX_fopenmp:INTERNAL=TRUE
-//ADVANCED property for variable: OpenMP_CXX_FLAGS
-OpenMP_CXX_FLAGS-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: OpenMP_CXX_LIB_NAMES
-OpenMP_CXX_LIB_NAMES-ADVANCED:INTERNAL=1
-//CXX compiler's OpenMP specification date
-OpenMP_CXX_SPEC_DATE:INTERNAL=201511
-//Result of TRY_COMPILE
-OpenMP_SPECTEST_CXX_:INTERNAL=TRUE
-//ADVANCED property for variable: OpenMP_gomp_LIBRARY
-OpenMP_gomp_LIBRARY-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: OpenMP_pthread_LIBRARY
-OpenMP_pthread_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
 PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
 PKG_FONTCONFIG_CFLAGS:INTERNAL=-I/usr/local/include;-I/usr/include/freetype2;-I/usr/include/libpng16;-I/usr/include/freetype2;-I/usr/include/libpng16

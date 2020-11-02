@@ -102,6 +102,7 @@ namespace purdue {
 	inline T clamp(T v, T m, T mm) {
 		v = std::max(v, m);
 		v = std::min(v, mm);
+		return v;
 	}
 
 	inline float random_float(float fmin = 0.0f, float fmax = 1.0f) {
@@ -166,8 +167,13 @@ namespace purdue {
 
 	private:
 		bool _is_ticed = false;
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+		std::chrono::time_point<std::chrono::high_resolution_clock> _tic;
+		std::chrono::time_point<std::chrono::high_resolution_clock> _toc;
+#else
 		std::chrono::time_point<std::chrono::system_clock> _tic;
 		std::chrono::time_point<std::chrono::system_clock> _toc;
+#endif
 	};
 
 	inline vec3 bary_centric_interpolate(vec3 a, vec3 b, vec3 c, vec3 bary_coord) {

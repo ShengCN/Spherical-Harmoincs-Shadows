@@ -20,7 +20,7 @@ std::vector<vec3> uniform_sphere_3d_samples(int n) {
 
     for(int i = 0; i < n; ++i) {
         float a = samples[i].x, b = samples[i].y;
-        vec3 p(std::sin(a) * std::cos(b), std::sin(a) * std::sin(b), std::cos(a));
+        vec3 p(std::sin(a) * std::cos(b), std::cos(a),std::sin(a) * std::sin(b));
         ret[i] = p;
     }
     return ret;
@@ -64,7 +64,7 @@ float P(int l, int m, float x) {
     return (x * (2.0f * l - 1.0f) * P(l-1, m, x) - (l+m-1) * P(l-2, m, x))/(l-m);
 }
 
-constexpr float sqrt2 = std::sqrt(2.0f);
+const float sqrt2 = std::sqrt(2.0f);
 float SH(int l, int m, float theta, float phi) {
     if (m==0) 
         return K(l,0) * P(l, 0, cos(theta));
@@ -73,4 +73,34 @@ float SH(int l, int m, float theta, float phi) {
         return sqrt2 * K(l,m) * cos(m * phi) * P(l, m, cos(theta));
     
     return sqrt2 * K(l,-m) * sin(-m * phi) * P(l, -m, cos(theta)); 
+}
+
+std::vector<SH_sample> SH_init(int band, int num) {
+    std::vector<SH_sample> ret(num, SH_sample(band));
+
+    auto samples = uniform_sphere_2d_samples(num);
+    for (int i = 0; i < num; ++i) {
+        float a = samples[i].x, b = samples[i].y;
+        vec3 p(std::sin(a) * std::cos(b), std::cos(a),std::sin(a) * std::sin(b));
+        
+        ret[i].sph = samples[i];
+        ret[i].vec = p;
+
+        // coefficients
+        int ind =0;
+        for(int l = 0; l < band; ++l) {
+            for(int m = -l; m <= l; ++m) {
+                ret[i].coeffs[ind] = SH(l, m, ret[i].sph.x, ret[i].sph.y);
+                ind += 1;
+            }
+        }
+    }
+
+    return ret;
+}
+
+std::vector<float> SH_func(std::function<float(float theta, float phi)> func, const std::vector<SH_sample> &samples) {
+    std::vector<float> ret;
+
+    return ret; 
 }
