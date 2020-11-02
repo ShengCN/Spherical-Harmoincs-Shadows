@@ -285,3 +285,17 @@ std::vector<glm::vec3> AABB::to_line_mesh() {
 
 	return ret;
 }
+
+void mesh::compute_sh_texture() {
+	glGenTextures(1, &m_sh_tex_id);
+	glBindTexture(GL_TEXTURE_2D, m_sh_tex_id);
+	// set the texture wrapping/filtering options (on the currently bound texture object)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	// load and generate the texture
+	int width = m_band * m_band, height = m_verts.size();
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_FLOAT, &m_sh_coeffs[0]);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}

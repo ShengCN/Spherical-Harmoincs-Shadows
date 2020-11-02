@@ -7,12 +7,12 @@
 #include "graphics_lib/Render/shader.h"
 #include "graphics_lib/Utilities/Utils.h"
 #include "graphics_lib/Utilities/model_loader.h"
-
-#include "spherical_harmonics.h"
+#include "graphics_lib/Render/material.h"
 
 using namespace purdue;
 
 otb_window::otb_window() {
+	m_band = 1;
 }
 
 otb_window::~otb_window() {
@@ -28,8 +28,7 @@ void otb_window::key_callback(GLFWwindow* window, int key, int scancode, int act
 		m = 'w';
 	}
 
-	if(key == GLFW_KEY_A && action == GLFW_PRESS) {
-		m = 'a';
+	if(key == GLFW_KEY_A && action == GLFW_PRESS) { m = 'a';
 	}
 
 	if(key == GLFW_KEY_S && action == GLFW_PRESS) {
@@ -107,6 +106,7 @@ int otb_window::create_window(int w, int h, const std::string title) {
 	glfwSetScrollCallback(_window, scroll_callback);
 	glfwSetCursorPosCallback(_window, cursor_position_callback);
 	glfwSetMouseButtonCallback(_window, mouse_button_callback);
+	glfwSetWindowSizeCallback(_window, window_resize_callback);
 
 	// set up environment
 	glfwMakeContextCurrent(_window);
@@ -232,28 +232,31 @@ void otb_window::draw_gui() {
 	ImGui::SliderInt("Point size", &point_size, 1, 100);
 	glPointSize(point_size);
 
-	static int l = 0;
-	static int m = 0;
-	ImGui::SliderInt("l", &l, 0, 7);
-	ImGui::SliderInt("m", &m, -l, l);
-
+	ImGui::SliderInt("band", &m_band, 0, 7);
 	if (ImGui::Button("dbg")) {
-		auto sh_samples = SH_init(l, 10000);
+		int n = 10000;
 		auto mesh_ptr = m_engine.get_rendering_meshes().back();
-		mesh_ptr->clear_vertices();
-
-		for(int si = 0; si < sh_samples.size(); ++si) {
-			int ind = 0;
-			for(int j = 0; j < l; ++j) {
-				for (int i = -j; i <= j; ++i) {
-					glm::vec3 offset((float)i,(float)(l-j - (float)j/2),0.0f);
-					float sh = std::abs(sh_samples[si].coeffs[ind++]);
-					mesh_ptr->m_verts.push_back(sh_samples[si].vec * sh + offset * 1.5f);
-				}
-			}
-		}
 		
-		m_engine.set_cur_render_type(draw_type::points);
+		// prepare environment map
+		// const std::string light_path = "2_0.png";
+		// img_texutre img;
+		// img.read_img(light_path);
+
+		// compute environment in SH basis
+		// 
+		pd::timer clc;
+		cuda_timer cuda_clc;
+
+		clc.tic();
+		compute_sh_coeff(mesh_ptr, m_band, n);
+		clc.toc();
+		INFO("OpenMP time: " + std::to_string(clc.get_elapse() * 1e-6));
+
+		cuda_clc.tic();
+		cuda_compute_sh_coeff(mesh_ptr, m_band, n);
+		cuda_clc.toc();
+		INFO("Cuda time: " + std::to_string(cuda_clc.get_time()));
+		
 		m_engine.set_mesh_color(mesh_ptr, vec3(1.0f));
 		m_engine.look_at(mesh_ptr->get_id());
 	}
@@ -263,6 +266,11 @@ void otb_window::draw_gui() {
 	 //ImGui::ShowTestWindow();
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void otb_window::window_resize_callback(GLFWwindow* window, int w, int h) {
+	glViewport(0,0,w,h);
+	m_engine.camera_resize(w,h);
 }
 
 void otb_window::render(int iter) {

@@ -6,6 +6,7 @@
 #include <string>
 #include <iostream>
 #include <graphics_lib/render_engine.h>
+#include "spherical_harmonics.h"
 
 class otb_window {
 	// public variables
@@ -28,6 +29,7 @@ public:
 
 	static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 	static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
+	static void window_resize_callback(GLFWwindow* window, int w, int h);
 
 	// public functions
 public:
@@ -50,5 +52,6 @@ private:
 private:
 	static render_engine m_engine;
 	float m_distance = 2.0f;
+	int m_band;
 };
 

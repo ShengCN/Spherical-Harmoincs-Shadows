@@ -94,6 +94,7 @@ public:
 	void mouse_move(int x, int y);
 	bool mouse_inside_frame(int x, int y);
 	void set_trackball(bool trackball);
+	void camera_resize(int w, int h);
 
 	std::string to_string();
 

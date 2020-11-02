@@ -31,6 +31,7 @@ ${PROJECT_SOURCE_DIR}/Dep/imgui
 ${PROJECT_SOURCE_DIR}/Dep
 ${PROJECT_SOURCE_DIR}/Dep/glad/include
 ${PROJECT_SOURCE_DIR}/Dep/glfw/include
+${PROJECT_SOURCE_DIR}/Dep/stb
 ${PROJECT_SOURCE_DIR}
 ${Boost_INCLUDE_DIR})
 

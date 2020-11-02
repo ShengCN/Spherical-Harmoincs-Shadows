@@ -11,6 +11,7 @@ enum class draw_type {
 struct rendering_params {
 	std::shared_ptr<ppc> cur_camera;
 	std::vector<vec3> p_lights;
+	unsigned int sh_light_texture;
 	int frame;
 	draw_type dtype;
 };

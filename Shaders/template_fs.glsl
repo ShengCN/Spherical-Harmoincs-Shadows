@@ -1,5 +1,6 @@
 #version 430
 
+flat in int vs_vid;
 in vec3 vs_pos;
 in vec3 vs_color;
 in vec3 vs_norm;
@@ -8,6 +9,10 @@ in vec2 vs_uvs;
 uniform float slider;
 uniform int cur_selected_id;
 uniform int is_draw_normal;
+uniform sampler2D sh_texture;
+uniform sampler2D sh_light;
+uniform int sh_w;
+uniform int sh_h;
 
 out vec4 frag_color;
 
@@ -35,6 +40,17 @@ void main(){
         col = vs_norm;
     }
 
-    col = vs_color;
+    float v = vs_vid * 1.0f/sh_h;
+
+    // if (sh_w > 1)
+    
+    col = vec3(0.0);
+    for(int i = 0; i < sh_w; ++i) {
+        float u = (i + 0.5) / sh_w;
+        float coeff = texture(sh_texture, vec2(u,v)).r;
+        float light_coeff = texture(sh_light, vec2(u,0)).r;
+        col += light_coeff * coeff * vs_color;
+    }
+    
     frag_color = vec4(col, 1.0f);
 }

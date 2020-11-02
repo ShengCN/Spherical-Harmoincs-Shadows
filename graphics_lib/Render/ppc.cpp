@@ -183,6 +183,12 @@ void ppc::set_trackball(bool tb) {
 	m_trackball = tb;
 }
 
+
+void ppc::camera_resize(int w, int h) {
+	_width = w;
+	_height = h;
+}
+
 std::string ppc::to_string() {
 	std::ostringstream oss;
 	oss << "w: " << _width << " h: " << _height<< std::endl;

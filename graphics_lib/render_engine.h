@@ -31,6 +31,7 @@ public:
 	bool load_render_scene(const std::string scene_file);
 	bool reload_shaders();
 	void add_mesh(std::shared_ptr<mesh> m);
+	bool load_sh_texture(const std::string path);
 
 	//------- UI --------//
 	void camera_press(int x, int y);
@@ -38,6 +39,7 @@ public:
 	void camera_move(int x, int y);
 	void camera_scroll(int offset);
 	void camera_keyboard(char m, bool shift);
+	void camera_resize(int w, int h);
 	void set_trackball(bool trackball=true);
 
 	//------- Modify --------//
@@ -74,6 +76,8 @@ private:
 	void render_scene(std::shared_ptr<scene> cur_scene, rendering_params params);
 	void render_weighted_OIT(std::shared_ptr<scene> cur_scene, rendering_params params);
 	std::shared_ptr<mesh> vis_new_mesh();
+
+	rendering_params get_cur_rendering_params(int frame);
 
 	GLuint create_quad();
 private:

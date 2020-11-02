@@ -5,6 +5,7 @@
 #include <memory>
 #include <sstream>
 
+#include <glad/glad.h>
 #include "common.h"
 
 /*!
@@ -127,6 +128,7 @@ public:
 	std::string to_string() {
 		return std::to_string(get_id());
 	}
+	void compute_sh_texture();
 
 	//------- getter & setter --------//
 public:
@@ -141,6 +143,7 @@ public:
 		m_verts = verts;
 	}
 
+	GLuint get_sh_tex() { return m_sh_tex_id;} 
 	//------- member variables --------//
 public:
 	mat4 m_world = glm::mat4(1.0f); // model space -> world space
@@ -148,6 +151,9 @@ public:
 	std::vector<vec3> m_norms;
 	std::vector<vec3> m_colors;
 	std::vector<vec2> m_uvs;
+	std::vector<float> m_sh_coeffs;
+	int m_band;
+	unsigned int m_sh_tex_id;
 	std::string file_path;
 	
 	std::string m_vs, m_fs;

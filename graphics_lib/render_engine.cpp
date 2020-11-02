@@ -3,6 +3,7 @@
 #include "Utilities/voxelization.h"
 #include <glm/gtx/transform.hpp>
 #include "Utilities/Utils.h"
+#include "Render/material.h"
 
 render_engine::render_engine() {
 	m_draw_render = true;
@@ -48,17 +49,31 @@ void render_engine::set_cur_render_type(draw_type type) {
 }
 
 void render_engine::render(int frame) {	
-	rendering_params params = { cur_manager.cur_camera, cur_manager.lights, frame, m_current_draw_type};
+	rendering_params params = get_cur_rendering_params(frame);
 
 	if (m_draw_render) {
 		render_scene(cur_manager.render_scene, params);
 	}
 	if (m_draw_visualize) {
-		params = { cur_manager.cur_camera, cur_manager.lights, frame, draw_type::line_segments };
+		params.dtype = draw_type::line_segments;
 		if (m_vis_frame_mode) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		render_scene(cur_manager.visualize_scene, params);
 		if (m_vis_frame_mode) glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
+}
+
+rendering_params render_engine::get_cur_rendering_params(int frame) {
+	rendering_params params;
+	params.cur_camera = cur_manager.cur_camera;
+	params.p_lights =  cur_manager.lights;
+	if (cur_manager.textures.empty()) {
+		params.sh_light_texture = -1;
+	} else {
+		params.sh_light_texture = cur_manager.textures.back()->ogl_tex_id;
+	}
+	params.frame = frame;
+	params.dtype = m_current_draw_type;
+	return params;
 }
 
 void render_engine::init() {
@@ -275,6 +290,15 @@ void render_engine::add_mesh(std::shared_ptr<mesh> m) {
 	cur_manager.render_scene->add_mesh(m);
 }
 
+bool render_engine::load_sh_texture(const std::string path) {
+	std::shared_ptr<img_texutre> tex_ptr = std::make_shared<img_texutre>();
+	bool succ = tex_ptr->read_img(path);
+	if(succ)	
+		cur_manager.textures.push_back(tex_ptr);
+	
+	return succ;
+}
+
 void render_engine::camera_press(int x, int y) {
 	cur_manager.cur_camera->mouse_press(x, y);
 }
@@ -321,6 +345,10 @@ void render_engine::camera_keyboard(char m, bool shift) {
 	}
 }
 
+void render_engine::camera_resize(int w, int h) {
+	cur_manager.cur_camera->camera_resize(w,h);
+}
+
 void render_engine::set_trackball(bool trackball) {
 	cur_manager.cur_camera->set_trackball(trackball);
 }
@@ -343,7 +371,8 @@ void render_engine::draw_line(glm::vec3 t, glm::vec3 h, vec3 tc, vec3 hc) {
 	line_mesh->add_vertex(t, vec3(0.0f), tc);
 	line_mesh->add_vertex(h, vec3(0.0f), hc);
 	
-	rendering_params params = { cur_manager.cur_camera, cur_manager.lights, 0, draw_type::line_segments};
+	rendering_params params = get_cur_rendering_params(0);
+	params.dtype = draw_type::line_segments;
 
 	glDisable(GL_DEPTH_TEST);
 	cur_manager.shaders.at("template") ->draw_mesh(line_mesh, params);
