@@ -81,8 +81,11 @@ std::vector<SH_sample> SH_init(int band, int num) {
     
     // memory layout: 
     // band, series x N samples 
-    std::vector<SH_sample> ret(sample_num);
-
+    static std::vector<SH_sample> ret;
+    if (ret.size() == sample_num)
+        return ret;
+        
+    ret.resize(sample_num);
     auto samples = uniform_sphere_2d_samples(num);
     int sample_i = 0;
     for(int l = 0; l < band; ++l) {
@@ -105,20 +108,20 @@ std::vector<SH_sample> SH_init(int band, int num) {
 }
 
 // return a sparse band/series matrix
-std::vector<float> SH_func(std::function<float(float theta, float phi)> func, const std::vector<SH_sample> &samples, int band) {
+std::vector<float> SH_func(std::function<float(float theta, float phi)> func, int band, int n) {
+    auto samples = SH_init(band, n);
     int band_n = band * band;
     std::vector<float> ret(band_n);
-    int sample_num = (int)samples.size() / band_n;
     int ind = 0;
 
-    const float mc_factor = 4.0f * pd::pi /(float)sample_num;
+    const float mc_factor = 4.0f * pd::pi /(float)n;
     for (int l = 0; l < band; ++l) {
         for(int m = -l; m <=l; ++m) {
             float c = 0.0f;
 
             // monte-carlo integration
-            for(int si = 0; si < sample_num; ++si) {
-                c += func(samples[si].sph.x, samples[si].sph.y) * samples[si].c * mc_factor;
+            for(int si = 0; si < n; ++si) {
+                c += func(samples[ind * n + si].sph.x, samples[ind * n + si].sph.y) * samples[ind * n + si].c * mc_factor;
             }
 
             ret[ind++] = c;
@@ -194,7 +197,6 @@ void cuda_compute_sh_coeff(std::shared_ptr<mesh> mesh_ptr, int band, int n) {
 	mesh_ptr->m_sh_coeffs.resize(band * band * mesh_ptr->m_norms.size());
 	
     auto sh_samples = SH_init(band, n);
-	int sample_num = (int)sh_samples.size()/(band * band);
 
     // memory allocation
     glm::vec3 *d_norms;         size_t d_norms_size = sizeof(glm::vec3) * mesh_ptr->m_norms.size();

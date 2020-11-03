@@ -143,10 +143,6 @@ void otb_window::show() {
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(_window)) {
 		glfwPollEvents();
-
-		// animation
-		iter = (iter+1) % 10000;
-
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		render(iter);
@@ -236,11 +232,43 @@ void otb_window::draw_gui() {
 	if (ImGui::Button("dbg")) {
 		int n = 10000;
 		auto mesh_ptr = m_engine.get_rendering_meshes().back();
-		
+
 		// prepare environment map
-		// const std::string light_path = "2_0.png";
-		// img_texutre img;
-		// img.read_img(light_path);
+		const std::string light_path = "2_0.png";
+		img_texutre img;	
+		img.read_img(light_path);
+
+		auto func = [](float theta, float phi) {
+			// int w = img.w, h = img.h, c = img.c;
+			float u = phi / (3.1415926f * 2.0f);
+			float v = theta / (3.1415926f);
+			
+			// glm::vec3 color = img.at(u, v);
+			// return (color.x + color.y + color.z)/3.0f;
+			if (v > 0.85f && u > 0.5f)
+				return 1.0f;
+			else
+				return 0.0f;
+		};
+
+		std::vector<float> sp_map_coeff = SH_func(func, m_band, n);
+		for(auto c:sp_map_coeff) {
+			INFO(c);
+		}
+
+		static unsigned int sp_map_tex = -1;
+		glGenTextures(1, &sp_map_tex);
+		glBindTexture(GL_TEXTURE_2D, sp_map_tex);
+		// set the texture wrapping/filtering options (on the currently bound texture object)
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		// load and generate the texture
+		int width = m_band * m_band, height = 1;
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_FLOAT, &sp_map_coeff[0]);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		m_engine.set_SH_map_tex(sp_map_tex);
 
 		// compute environment in SH basis
 		// 

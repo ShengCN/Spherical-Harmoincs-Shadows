@@ -20,7 +20,7 @@ struct SH_sample {
 
 float SH(int l, int m, float theta, float phi);
 std::vector<SH_sample> SH_init(int band, int num);
-std::vector<float> SH_func(std::function<float(float theta, float phi)> func, const std::vector<SH_sample> &samples, int band);
+std::vector<float> SH_func(std::function<float(float theta, float phi)> func, int band, int n);
 
 void compute_sh_coeff(std::shared_ptr<mesh> mesh_ptr, int band, int n);
 void cuda_compute_sh_coeff(std::shared_ptr<mesh> mesh_ptr, int band, int n);

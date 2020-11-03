@@ -66,14 +66,15 @@ rendering_params render_engine::get_cur_rendering_params(int frame) {
 	rendering_params params;
 	params.cur_camera = cur_manager.cur_camera;
 	params.p_lights =  cur_manager.lights;
-	if (cur_manager.textures.empty()) {
-		params.sh_light_texture = -1;
-	} else {
-		params.sh_light_texture = cur_manager.textures.back()->ogl_tex_id;
-	}
+	params.sh_map_tex = m_sh_map_tex;
 	params.frame = frame;
 	params.dtype = m_current_draw_type;
 	return params;
+}
+
+
+void render_engine::set_SH_map_tex(unsigned int tex) {
+	m_sh_map_tex = tex;
 }
 
 void render_engine::init() {
@@ -288,15 +289,6 @@ bool render_engine::reload_shaders() {
 
 void render_engine::add_mesh(std::shared_ptr<mesh> m) {
 	cur_manager.render_scene->add_mesh(m);
-}
-
-bool render_engine::load_sh_texture(const std::string path) {
-	std::shared_ptr<img_texutre> tex_ptr = std::make_shared<img_texutre>();
-	bool succ = tex_ptr->read_img(path);
-	if(succ)	
-		cur_manager.textures.push_back(tex_ptr);
-	
-	return succ;
 }
 
 void render_engine::camera_press(int x, int y) {

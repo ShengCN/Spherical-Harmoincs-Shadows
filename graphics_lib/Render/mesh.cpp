@@ -13,6 +13,8 @@ int mesh::id = 0;
 
 mesh::mesh(){
 	cur_id = ++id;
+	m_sh_tex_id = -1;
+	m_band = 1;
 }
 
 mesh::~mesh() {

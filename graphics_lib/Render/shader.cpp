@@ -166,11 +166,11 @@ void shader::draw_mesh(std::shared_ptr<mesh> m, rendering_params& params) {
 		glBindTexture(GL_TEXTURE_2D, m->m_sh_tex_id);
 	}
 
-	uniform_loc = glGetUniformLocation(m_program, "sh_light");
+	uniform_loc = glGetUniformLocation(m_program, "sh_map");
 	if (uniform_loc != -1) {
 		glUniform1i(uniform_loc, 1);
 		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, params.sh_light_texture);
+		glBindTexture(GL_TEXTURE_2D, params.sh_map_tex);
 	}
 
 	uniform_loc = glGetUniformLocation(m_program, "sh_w");
