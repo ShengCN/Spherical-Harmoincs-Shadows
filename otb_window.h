@@ -47,7 +47,7 @@ private:
 	void reload_all_shaders();
 	void render(int iter);
 
-	void exp_bands(int band, int n);
+	void exp_bands(int band, int n, bool is_shadow);
 	
 private:
 	static render_engine m_engine;

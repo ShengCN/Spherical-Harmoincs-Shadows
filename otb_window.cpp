@@ -226,9 +226,13 @@ void otb_window::draw_gui() {
 	glPointSize(point_size);
 
 	ImGui::SliderInt("band", &m_band, 0, 20);
+	ImGui::SameLine();
+	static bool shadow = false;
+	ImGui::Checkbox("Shadow", &shadow);
+
 	if (ImGui::Button("dbg")) {
 		int n = 10000;
-		exp_bands(m_band, n);
+		exp_bands(m_band, n, shadow);
 	}
 	ImGui::SameLine();
 	if(ImGui::Button("save")) {
@@ -258,8 +262,9 @@ void otb_window::render(int iter) {
 	m_engine.render(iter);
 }
 
-void otb_window::exp_bands(int band, int n) {
-	auto mesh_ptr = m_engine.get_rendering_meshes().back();
+void otb_window::exp_bands(int band, int n, bool is_shadow) {
+	auto meshes = m_engine.get_rendering_meshes();
+	auto mesh_ptr = meshes.back();
 	mesh_ptr->set_color(vec3(0.7f));
 
 	auto func = [](float theta, float phi) {
@@ -272,9 +277,14 @@ void otb_window::exp_bands(int band, int n) {
 		return 0.0f;
 	};
 
-	// compute environment in SH basis
-	cuda_compute_sh_coeff(mesh_ptr, m_band, n);
-	// compute_sh_coeff(mesh_ptr, m_band, n);
+	// copy all meshes into scene 
+	std::vector<vec3> scene;
+	for(auto m:meshes) {
+		scene.insert(scene.end(), m->m_verts.begin(), m->m_verts.end());
+	}
+
+	// compute_sh_coeff(mesh_ptr, scene, m_band, n);
+	cuda_compute_sh_coeff(mesh_ptr, scene, m_band, n, is_shadow);
 	auto sp_map_coeff = SH_func(func, m_band, n);
 	sh_render(mesh_ptr, sp_map_coeff);
 

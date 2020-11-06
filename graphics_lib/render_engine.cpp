@@ -12,7 +12,7 @@ render_engine::render_engine() {
 }
 
 void render_engine::test_scene(int w, int h) {
-	int id = load_mesh("Meshes/bunny.obj");
+	int id = load_mesh("Meshes/bunny_s.obj");
 	INFO("finish loading mesh buny");
 
 	auto mesh_ptr = get_mesh(id);

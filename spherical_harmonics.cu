@@ -112,7 +112,6 @@ std::vector<float> SH_func(std::function<float(float theta, float phi)> func, in
     auto samples = SH_init(band, n);
     int band_n = band * band;
     std::vector<float> ret(band_n);
-    int ind = 0;
 
     const float mc_factor = 4.0f * pd::pi /(float)n;
     for(int l = 0; l < band_n; ++l){
@@ -149,8 +148,45 @@ void omp_no_shadow(std::vector<vec3> &norms, std::vector<SH_sample> &sh_samples,
 	}
 }
 
+struct ray {
+	glm::vec3 ro, rd;
+};
 
-void omp_shadow(std::vector<vec3> &norms, std::vector<SH_sample> &sh_samples, int band, std::vector<float> &coeffs) {
+__host__ __device__
+bool ray_triangle(ray r, vec3 p0, vec3 p1, vec3 p2, float &t) {
+	glm::vec3 v0v1 = p1 - p0;
+	glm::vec3 v0v2 = p2 - p0;
+	glm::mat3 m;
+	m[0] = -r.rd; m[1] = v0v1; m[2] = v0v2;
+	glm::vec3 b = r.ro - p0.p;
+    if (std::abs(glm::determinant(m) < 1e-6)) {
+        return false;
+    }
+
+	glm::vec3 x = glm::inverse(m) * b;
+    t = x.x;
+    float u = x.y, v = x.z;
+	if (t <= 0.0 || u < 0.0 || v < 0.0 || u > 1.0 || v >1.0 || u + v < 0.0 || u + v > 1.0) {
+		return false;
+    }
+    
+    return true;
+}
+
+__host__ __device__
+bool point_visible(vec3 p, vec3 *scene, int N, vec3 dir) {
+    float eps = 1e-3;
+    ray r = {p + glm::normalize(dir) * eps, dir};
+    
+    for(int i = 0; i < N/3; ++i) {
+        float t;
+        bool intersect = ray_triangle(r, scene[3 * i + 0], scene[3 * i + 1], scene[3 * i + 2], t);
+        if (intersect) return false;
+    }
+    return true;
+}
+
+void omp_shadow(std::vector<vec3> &world_verts, std::vector<vec3> &norms, std::vector<glm::vec3> &scene, std::vector<SH_sample> &sh_samples, int band, std::vector<float> &coeffs) {
 	int sample_num = (int)sh_samples.size()/(band * band);
 	const float mc_factor = 4.0f * pd::pi / (float)sample_num;
 
@@ -161,16 +197,19 @@ void omp_shadow(std::vector<vec3> &norms, std::vector<SH_sample> &sh_samples, in
 			// monte-carlo integration
 			for(int si = 0; si < sample_num; ++si) {
                 float dot_term = std::max(glm::dot(norms[vi], sh_samples[l * sample_num + si].vec), 0.0f);
-				c +=
-                dot_term *
-				sh_samples[l * sample_num + si].c;
+                bool visibility = point_visible(world_verts[vi], scene.data(), (int)scene.size(), sh_samples[si].vec);
+                if (visibility) {
+                    c +=
+                    dot_term *
+                    sh_samples[l * sample_num + si].c;
+                }
 			}
 			coeffs[vi * band * band + l] = c * mc_factor;		
 		}
 	}
 }
     
-void compute_sh_coeff(std::shared_ptr<mesh> mesh_ptr, int band, int n) {
+void compute_sh_coeff(std::shared_ptr<mesh> mesh_ptr, std::vector<vec3> &scene, int band, int n) {
 	if(!mesh_ptr) return;
 
 	if(mesh_ptr->m_norms.empty()) {
@@ -181,7 +220,10 @@ void compute_sh_coeff(std::shared_ptr<mesh> mesh_ptr, int band, int n) {
 	mesh_ptr->m_sh_coeffs.resize(band * band * mesh_ptr->m_norms.size());
 	
     auto sh_samples = SH_init(band, n);
-    omp_no_shadow(mesh_ptr->m_norms, sh_samples, band, mesh_ptr->m_sh_coeffs);
+    // omp_no_shadow(mesh_ptr->m_norms, sh_samples, band, mesh_ptr->m_sh_coeffs);
+    auto mesh_world_verts = mesh_ptr->compute_world_space_coords();
+
+    omp_shadow(mesh_world_verts, mesh_ptr->m_norms, scene, sh_samples, band, mesh_ptr->m_sh_coeffs);
 }
 
 __global__
@@ -205,7 +247,30 @@ void cuda_no_shadow(glm::vec3 *norms, int norm_n, SH_sample *sh_samples, int sh_
     }
 }
 
-void cuda_compute_sh_coeff(std::shared_ptr<mesh> mesh_ptr, int band, int n) {
+__global__
+void cuda_shadow(vec3 *world_verts, glm::vec3 *norms, int norm_n, vec3 *scene, int scene_n, SH_sample *sh_samples, int sh_n, int band, float *d_coeffs) {
+    int ind = blockDim.x * blockIdx.x + threadIdx.x;
+    int stride = gridDim.x * blockDim.x;
+
+    int sample_num = sh_n / (band * band);
+    float mc_factor = 4.0f * 3.1415926f/(float)sample_num;
+    for(int vi = ind; vi < norm_n; vi += stride) {
+        for(int l = 0; l < band * band; ++l) {
+            float c = 0.0f;
+            for(int si = 0; si < sample_num; ++si) {
+                float dot_term = glm::dot(glm::normalize(norms[vi]), glm::normalize(sh_samples[l * sample_num + si].vec));
+                if (dot_term < 0.0) dot_term = 0.0f;
+                bool vis_term = point_visible(world_verts[vi], scene, scene_n, sh_samples[l * sample_num + si].vec);
+                 
+                if (vis_term)
+                    c += dot_term * sh_samples[l * sample_num + si].c;
+            }
+            d_coeffs[vi * band * band + l] = c * mc_factor;
+        }
+    }
+}
+
+void cuda_compute_sh_coeff(std::shared_ptr<mesh> mesh_ptr, std::vector<vec3> &scene, int band, int n, bool is_shadow) {
 	if(!mesh_ptr) return;
 
 	if(mesh_ptr->m_norms.empty()) {
@@ -216,21 +281,33 @@ void cuda_compute_sh_coeff(std::shared_ptr<mesh> mesh_ptr, int band, int n) {
 	mesh_ptr->m_sh_coeffs.resize(band * band * mesh_ptr->m_norms.size());
 	
     auto sh_samples = SH_init(band, n);
+    auto world_verts = mesh_ptr->compute_world_space_coords();
 
     // memory allocation
+    glm::vec3 *d_verts;         size_t d_verts_size = sizeof(glm::vec3) * mesh_ptr->m_norms.size();
     glm::vec3 *d_norms;         size_t d_norms_size = sizeof(glm::vec3) * mesh_ptr->m_norms.size();
+    glm::vec3 *d_scene;         size_t d_scene_size = sizeof(glm::vec3) * scene.size();
     SH_sample *d_sh_samples;    size_t d_sh_samples_size = sizeof(SH_sample) * sh_samples.size();
     float *d_coeffs;            size_t d_coeffs_size = sizeof(float) * band * band * mesh_ptr->m_norms.size();
 
+    GC(cudaMalloc(&d_verts, d_verts_size));
     GC(cudaMalloc(&d_norms, d_norms_size));
+    GC(cudaMalloc(&d_scene, d_scene_size));
     GC(cudaMalloc(&d_sh_samples, d_sh_samples_size));
     GC(cudaMalloc(&d_coeffs, d_coeffs_size));
+
+    // cuda memory copy
+    GC(cudaMemcpy(d_verts, world_verts.data(), d_verts_size, cudaMemcpyHostToDevice));
     GC(cudaMemcpy(d_norms, mesh_ptr->m_norms.data(), d_norms_size, cudaMemcpyHostToDevice));
+    GC(cudaMemcpy(d_scene, scene.data(), d_scene_size, cudaMemcpyHostToDevice));
     GC(cudaMemcpy(d_sh_samples, sh_samples.data(), d_sh_samples_size, cudaMemcpyHostToDevice))
 
     // cuda computation
     int grid = 512, block = (grid + mesh_ptr->m_norms.size() -1)/grid;
-    cuda_no_shadow<<<grid,block>>>(d_norms, mesh_ptr->m_norms.size(), d_sh_samples, sh_samples.size(), band, d_coeffs);
+    if (is_shadow)
+        cuda_shadow<<<grid,block>>>(d_verts,d_norms, (int)mesh_ptr->m_norms.size(), d_scene, (int)scene.size(),d_sh_samples, sh_samples.size(), band, d_coeffs);
+    else
+        cuda_no_shadow<<<grid,block>>>(d_norms, (int)mesh_ptr->m_norms.size(),d_sh_samples, sh_samples.size(), band, d_coeffs);
     GC(cudaDeviceSynchronize());
 
     // memory copy back
