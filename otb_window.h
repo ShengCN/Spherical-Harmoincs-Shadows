@@ -44,10 +44,10 @@ public:
 private:
 	void init_gui();
 	void draw_gui();
-
-private:
 	void reload_all_shaders();
 	void render(int iter);
+
+	void exp_bands(int band, int n);
 	
 private:
 	static render_engine m_engine;

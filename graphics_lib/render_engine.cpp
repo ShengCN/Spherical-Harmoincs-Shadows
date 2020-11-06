@@ -66,15 +66,9 @@ rendering_params render_engine::get_cur_rendering_params(int frame) {
 	rendering_params params;
 	params.cur_camera = cur_manager.cur_camera;
 	params.p_lights =  cur_manager.lights;
-	params.sh_map_tex = m_sh_map_tex;
 	params.frame = frame;
 	params.dtype = m_current_draw_type;
 	return params;
-}
-
-
-void render_engine::set_SH_map_tex(unsigned int tex) {
-	m_sh_map_tex = tex;
 }
 
 void render_engine::init() {

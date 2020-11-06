@@ -145,7 +145,7 @@ void otb_window::show() {
 		glfwPollEvents();
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		render(iter);
+		render(iter++);
 
 		draw_gui();
 		glfwSwapBuffers(_window);
@@ -220,75 +220,26 @@ void otb_window::draw_gui() {
 	if(ImGui::Button("reload shader")) {
 		reload_all_shaders();
 	}
-	if(ImGui::Button("save")) {
-		save_framebuffer("test.png");
-	}
 
 	static int point_size = 1;
 	ImGui::SliderInt("Point size", &point_size, 1, 100);
 	glPointSize(point_size);
 
-	ImGui::SliderInt("band", &m_band, 0, 7);
+	ImGui::SliderInt("band", &m_band, 0, 20);
 	if (ImGui::Button("dbg")) {
 		int n = 10000;
-		auto mesh_ptr = m_engine.get_rendering_meshes().back();
-
-		// prepare environment map
-		const std::string light_path = "2_0.png";
-		img_texutre img;	
-		img.read_img(light_path);
-
-		auto func = [](float theta, float phi) {
-			// int w = img.w, h = img.h, c = img.c;
-			float u = phi / (3.1415926f * 2.0f);
-			float v = theta / (3.1415926f);
-			
-			// glm::vec3 color = img.at(u, v);
-			// return (color.x + color.y + color.z)/3.0f;
-			if (v > 0.85f && u > 0.5f)
-				return 1.0f;
-			else
-				return 0.0f;
-		};
-
-		std::vector<float> sp_map_coeff = SH_func(func, m_band, n);
-		for(auto c:sp_map_coeff) {
-			INFO(c);
-		}
-
-		static unsigned int sp_map_tex = -1;
-		glGenTextures(1, &sp_map_tex);
-		glBindTexture(GL_TEXTURE_2D, sp_map_tex);
-		// set the texture wrapping/filtering options (on the currently bound texture object)
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		// load and generate the texture
-		int width = m_band * m_band, height = 1;
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_FLOAT, &sp_map_coeff[0]);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		m_engine.set_SH_map_tex(sp_map_tex);
-
-		// compute environment in SH basis
-		// 
-		pd::timer clc;
-		cuda_timer cuda_clc;
-
-		clc.tic();
-		compute_sh_coeff(mesh_ptr, m_band, n);
-		clc.toc();
-		INFO("OpenMP time: " + std::to_string(clc.get_elapse() * 1e-6));
-
-		cuda_clc.tic();
-		cuda_compute_sh_coeff(mesh_ptr, m_band, n);
-		cuda_clc.toc();
-		INFO("Cuda time: " + std::to_string(cuda_clc.get_time()));
-		
-		m_engine.set_mesh_color(mesh_ptr, vec3(1.0f));
-		m_engine.look_at(mesh_ptr->get_id());
+		exp_bands(m_band, n);
 	}
+	ImGui::SameLine();
+	if(ImGui::Button("save")) {
+		pd::safe_create_folder("output");
+		char buff[100];
+		snprintf(buff, sizeof(buff), "%04d", m_band);
+		std::string buff_str = buff;
 
+		std::string out_fname = "output/" + buff_str + ".png";
+		save_framebuffer(out_fname);
+	}
 	ImGui::End();
 
 	 //ImGui::ShowTestWindow();
@@ -305,4 +256,27 @@ void otb_window::render(int iter) {
 	glClearColor(0.0f,0.0f,0.0f,1.0f);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	m_engine.render(iter);
+}
+
+void otb_window::exp_bands(int band, int n) {
+	auto mesh_ptr = m_engine.get_rendering_meshes().back();
+	mesh_ptr->set_color(vec3(0.7f));
+
+	auto func = [](float theta, float phi) {
+		// int w = img.w, h = img.h, c = img.c;
+		float u = phi / (3.1415926f * 2.0f);
+		float v = theta / (3.1415926f);
+		
+		if (v>0.5f) return 1.0f;
+
+		return 0.0f;
+	};
+
+	// compute environment in SH basis
+	cuda_compute_sh_coeff(mesh_ptr, m_band, n);
+	// compute_sh_coeff(mesh_ptr, m_band, n);
+	auto sp_map_coeff = SH_func(func, m_band, n);
+	sh_render(mesh_ptr, sp_map_coeff);
+
+	m_engine.look_at(mesh_ptr->get_id());
 }

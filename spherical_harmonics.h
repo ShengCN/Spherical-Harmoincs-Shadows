@@ -24,3 +24,6 @@ std::vector<float> SH_func(std::function<float(float theta, float phi)> func, in
 
 void compute_sh_coeff(std::shared_ptr<mesh> mesh_ptr, int band, int n);
 void cuda_compute_sh_coeff(std::shared_ptr<mesh> mesh_ptr, int band, int n);
+
+// rendering
+void sh_render(std::shared_ptr<mesh> mesh_ptr, std::vector<float> light_coeffs);

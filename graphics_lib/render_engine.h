@@ -59,7 +59,6 @@ public:
 	void recompute_normal(int mesh_id);
 	void stand_on_plane(int mesh_id, vec3 p, vec3 n);
 	void set_cur_render_type(draw_type type);
-	void set_SH_map_tex(unsigned int tex);
 
 	//------- Rendering --------//
 	void draw_render(bool trigger) { m_draw_render = trigger; }

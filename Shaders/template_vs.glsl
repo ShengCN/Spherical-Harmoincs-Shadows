@@ -10,7 +10,6 @@ uniform mat4 P;
 uniform mat4 V;
 uniform mat4 M;
 
-flat out int vs_vid;
 out vec3 vs_pos;  // world space position
 out vec3 vs_color;
 out vec3 vs_norm;
@@ -19,7 +18,6 @@ out vec2 vs_uvs;
 void main(){
     gl_Position = PVM * vec4(pos_attr,1.0f);
     
-    vs_vid = gl_VertexID;
     // pass values to next step
     vs_pos = vec3(M * vec4(pos_attr, 1.0));
     vs_color = col_attr;

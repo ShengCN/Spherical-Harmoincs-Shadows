@@ -95,7 +95,6 @@ void shader::draw_mesh(std::shared_ptr<mesh> m, rendering_params& params) {
 	GLuint norm_attr = glGetAttribLocation(m_program, "norm_attr");
 	GLuint col_attr = glGetAttribLocation(m_program, "col_attr");
 	GLuint uv_attr = glGetAttribLocation(m_program, "uv_attr");
-	GLuint sh_attr = glGetAttribLocation(m_program, "sh_attr");
 
 	static GLuint vao = -1, vbo = -1;
 	if (vao == -1) glGenVertexArrays(1, &vao);
@@ -159,30 +158,6 @@ void shader::draw_mesh(std::shared_ptr<mesh> m, rendering_params& params) {
 		glUniform3f(uniform_loc, params.p_lights[0].x, params.p_lights[0].y, params.p_lights[0].z);
 	}
 
-	uniform_loc = glGetUniformLocation(m_program, "sh_texture");
-	if (uniform_loc != -1) {
-		glUniform1i(uniform_loc, 0);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, m->m_sh_tex_id);
-	}
-
-	uniform_loc = glGetUniformLocation(m_program, "sh_map");
-	if (uniform_loc != -1) {
-		glUniform1i(uniform_loc, 1);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, params.sh_map_tex);
-	}
-
-	uniform_loc = glGetUniformLocation(m_program, "sh_w");
-	if (uniform_loc != -1) {
-		glUniform1i(uniform_loc, m->m_band * m->m_band);	
-	}
-
-	uniform_loc = glGetUniformLocation(m_program, "sh_h");
-	if (uniform_loc != -1) {
-		glUniform1i(uniform_loc, (int)m->m_norms.size());	
-	}
-
 	int ogl_draw_type = 0;
 	if (params.dtype == draw_type::triangle) {
 		ogl_draw_type = GL_TRIANGLES;
@@ -213,6 +188,7 @@ void shader::draw_mesh(std::shared_ptr<mesh> m, rendering_params& params) {
 	glDrawArrays(ogl_draw_type, 0, (GLsizei)m->m_verts.size());
 	glBindVertexArray(0);
 }
+
 GLuint shader::init_compute_shader() {
 	bool error = false;
 	struct Shader
