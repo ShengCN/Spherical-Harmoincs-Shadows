@@ -181,7 +181,7 @@ float ray_triangle_intersect(ray r, vec3 p0, vec3 p1, vec3 p2, bool& ret) {
 
 __host__ __device__
 int point_visible(vec3 p, vec3 *scene, int N, vec3 dir) {
-    float eps = 1e-5f;
+    float eps = 1e-3f;
     ray r = {p + glm::normalize(dir) * eps, dir};
     for(int i = 0; i < N/3; ++i) {
         bool intersect = 0;
@@ -252,119 +252,73 @@ void cuda_no_shadow(glm::vec3 *norms, int norm_n, SH_sample *sh_samples, int sh_
     }
 }
 
+struct mesh_info {
+    vec3 *verts;
+    vec3 *norms;
+};
+
 __global__
-void cuda_shadow(vec3 *world_verts, 
-    glm::vec3 *norms, int norm_n, vec3 *scene, int scene_n, SH_sample *sh_samples, int sh_n, int *vis_buffer, int band, float *d_coeffs) {
+void cuda_shadow(mesh_info cur_mesh, int vn, vec3 *scene, int scene_n, SH_sample *sh_samples, int sh_n, int band, float *d_coeffs) {
     int ind = blockDim.x * blockIdx.x + threadIdx.x;
     int stride = gridDim.x * blockDim.x;
 
     int sample_num = sh_n / (band * band);
     float mc_factor = 4.0f * 3.1415926f/(float)sample_num;
-    for(int vi = ind; vi < norm_n; vi += stride) {
+    for(int vi = ind; vi < vn; vi += stride) {
+        float visible_term = 0.0f;
         for(int si = 0; si < sample_num; ++si) {
-            vis_buffer[si] = (int)point_visible(world_verts[vi], scene, scene_n, sh_samples[si].vec);
+            if(point_visible(cur_mesh.verts[vi], scene, scene_n, sh_samples[si].vec)) {
+                visible_term += 1.0f;
+            }
         }
+        visible_term = visible_term/(float)sample_num;
 
         for(int l = 0; l < band * band; ++l) {
             float c = 0.0f;
             for(int si = 0; si < sample_num; ++si) {
-                float dot_term = glm::dot(glm::normalize(norms[vi]), glm::normalize(sh_samples[l * sample_num + si].vec));
+                float dot_term = glm::dot(glm::normalize(cur_mesh.norms[vi]), glm::normalize(sh_samples[l * sample_num + si].vec));
                 if (dot_term < 0.0) dot_term = 0.0f;
-
-                if (vis_buffer[si]){
-                    c += dot_term * sh_samples[l * sample_num + si].c;
-                }
+                c += dot_term * sh_samples[l * sample_num + si].c;
             }
-            d_coeffs[vi * band * band + l] = c * mc_factor;
+            d_coeffs[vi * band * band + l] = c * mc_factor * visible_term;
         }
-    }
-}
-
-__global__
-void cuda_visible_test(vec3 *verts, int vn, vec3 *scene, int n,vec3 *samples, int sn, vec3 *results) {
-    int ind = blockDim.x * blockIdx.x + threadIdx.x;
-    int stride = gridDim.x * blockDim.x;
-
-    for(int i = ind; i < vn; i += stride) {
-        float vis_value = 0.0f;
-        int fact = 0;
-        for(int si = 0; si < sn; ++si) {
-            if(samples[si].y < 0.0f) {
-                continue;
-            }
-
-            fact += 1;
-            if (point_visible(verts[i], scene, n, samples[si])) {
-                vis_value += 1.0f;
-            } 
-        }    
-        
-        vis_value /= (float)fact;
-        if(vis_value < 1.0f)
-            printf("vis value: %f \n", vis_value);
-        results[i] = vec3(vis_value);
-    }
-}
-
-void test_visible(std::vector<std::shared_ptr<mesh>> meshes) {
-    std::vector<glm::vec3> verts;
-    for(auto m:meshes) {
-        auto world_coord = m->compute_world_space_coords();
-        verts.insert(verts.end(), world_coord.begin(), world_coord.end());
-    }
-
-    container_cuda<vec3> d_scene(verts);
-    
-    // samples
-    std::vector<vec3> sphere_samples = uniform_sphere_3d_samples(1000);
-    container_cuda<vec3> d_sphere_samples(sphere_samples);
-    
-    for(auto m:meshes) {
-        auto world_coord = m->compute_world_space_coords();
-        container_cuda<vec3> cur_verts(world_coord);
-        container_cuda<vec3> cur_colors(m->m_colors);
-
-        int grid = 512, block = (grid + m->m_verts.size() - 1)/grid;
-        cuda_visible_test<<<grid, block>>>(cur_verts.get_d(), cur_verts.get_n(), d_scene.get_d(), d_scene.get_n(), d_sphere_samples.get_d(), d_sphere_samples.get_n(), cur_colors.get_d());
-        GC(cudaDeviceSynchronize());
-        cur_colors.mem_copy_back();
     }
 }
 
 void cuda_compute_sh_coeff(std::vector<std::shared_ptr<mesh>> &scene,  int band, int n, bool is_shadow) {
     auto samples = SH_init(band, n);
     std::vector<vec3> scene_verts;
-    for(int i = 1; i < scene.size(); ++i) {
-        scene_verts.insert(scene_verts.end(), scene[i]->m_verts.begin(), scene[i]->m_verts.end());
+
+    std::vector<std::vector<vec3>> each_world_verts;
+    for(int i = 0; i < scene.size(); ++i) {
+        each_world_verts.push_back(scene[i]->compute_world_space_coords());
+        scene_verts.insert(scene_verts.end(), each_world_verts[i].begin(), each_world_verts[i].end());
     }
 
     container_cuda<vec3> cuda_scene_verts(scene_verts);
     container_cuda<SH_sample> cuda_sh_samples(samples);
-    std::vector<int> h_visibles(n);
 
     for(int mi = 0; mi < scene.size(); ++mi) {
         auto cur_mesh = scene[mi];
         cur_mesh->m_band = band;
         cur_mesh->m_sh_coeffs.resize(band * band * cur_mesh->m_verts.size());
 
-        auto world_verts = cur_mesh->compute_world_space_coords();
         auto world_norms = cur_mesh->compute_world_space_normals();
 
-        container_cuda<vec3> cuda_verts(world_verts);
+        container_cuda<vec3> cuda_verts(each_world_verts[mi]);
         container_cuda<vec3> cuda_norms(world_norms);
         container_cuda<float> cuda_coeffs(cur_mesh->m_sh_coeffs);
-        container_cuda<int> cuda_visibles(h_visibles);
         int grid = 512, block = (grid + cur_mesh->m_norms.size() -1)/grid;
         if (is_shadow) {
+            mesh_info cur_info = {cuda_verts.get_d(), cuda_norms.get_d()};
+            // compute diffuse-shadow
             cuda_shadow<<<grid,block>>>(
-                cuda_verts.get_d(), 
-                cuda_norms.get_d(), 
+                cur_info,
                 cuda_norms.get_n(), 
                 cuda_scene_verts.get_d(), 
                 cuda_scene_verts.get_n(),
                 cuda_sh_samples.get_d(), 
                 cuda_sh_samples.get_n(), 
-                cuda_visibles.get_d(),
                 band, 
                 cuda_coeffs.get_d());
         } else {

@@ -24,6 +24,17 @@ void render_engine::test_scene(int w, int h) {
 	set_mesh_color(mesh_ptr, vec3(0.6f));
 	recompute_normal(id);
 	stand_on_plane(id, plane_center, vec3(0.0f,1.0f,0.0f));
+	mesh_ptr->add_world_transate(vec3(-0.75f,0.01f,0.0f));
+
+	id = load_mesh("Meshes/bunny_s.obj");
+	INFO("finish loading mesh cube");
+
+	mesh_ptr = get_mesh(id);
+	mesh_ptr->normalize_position_orientation();
+	set_mesh_color(mesh_ptr, vec3(0.6f));
+	recompute_normal(id);
+	stand_on_plane(id, plane_center, vec3(0.0f,1.0f,0.0f));
+	mesh_ptr->add_world_transate(vec3(0.0f,0.01f,0.0f));
 
 	cur_manager.cur_camera = std::make_shared<ppc>(w, h, 50.0f);
 	look_at(id);
@@ -54,15 +65,16 @@ void render_engine::set_cur_render_type(draw_type type) {
 
 std::shared_ptr<mesh> render_engine::add_plane() {
 	std::shared_ptr<mesh> mesh_ptr = std::make_shared<mesh>();
-	for(int i = 0; i < 20; ++i)
-		for(int j = 0; j < 20; ++j) {
+	int n = 25;
+	for(int i = 0; i < n; ++i)
+		for(int j = 0; j < n; ++j) {
 			vec3 offset(2.0f * i,0.0f, 2.0f * j);
 			mesh_ptr->add_face(offset + vec3(-1.0f,0.0f,-1.0f), offset + vec3(-1.0f,0.0f,1.0f), offset + vec3(1.0f,0.0f,1.0f));
 			mesh_ptr->add_face(offset + vec3(1.0f,0.0f,1.0f), offset + vec3(1.0f,0.0f,-1.0f), offset + vec3(-1.0f,0.0f,-1.0f));
 		}
 	
 	mesh_ptr->set_color(vec3(1.0f));
-	mesh_ptr->normalize_position_orientation(vec3(3.0f,1.0f,3.0f));
+	mesh_ptr->normalize_position_orientation(vec3(5.0f,1.0f,5.0f));
 	// mesh_ptr->add_world_transate(vec3(0.0f,-0.25f,0.0f));
 	set_shader(mesh_ptr, "template");
 	add_mesh(mesh_ptr);

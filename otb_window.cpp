@@ -283,19 +283,18 @@ void otb_window::exp_bands(int band, int n, bool is_shadow) {
 		// int w = img.w, h = img.h, c = img.c;
 		float u = phi / (3.1415926f * 2.0f);
 		float v = theta / (3.1415926f);
-		
-		if (v>0.5f && u < 0.5f) return 1.0f;
 
-		return 0.0f;
+		if (v>0.5f && u < 0.3) return 1.0f;
+
+		return 0.1f;
 	};
 
 	// compute_sh_coeff(mesh_ptr, scene, m_band, n);
 	// sh_render(mesh_ptr, sp_map_coeff);
+	
 	meshes[0]->set_color(vec3(1.0f));
 	meshes[1]->set_color(vec3(0.7f));
-	test_visible(meshes);
-
-	// cuda_compute_sh_coeff(meshes, m_band, n, is_shadow);
-	// auto sp_map_coeff = SH_func(func, m_band, n);
-	// sh_render(meshes, sp_map_coeff);
+	cuda_compute_sh_coeff(meshes, m_band, n, is_shadow);
+	auto sp_map_coeff = SH_func(func, m_band, n);
+	sh_render(meshes, sp_map_coeff);
 }
