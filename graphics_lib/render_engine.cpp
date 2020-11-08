@@ -8,18 +8,22 @@
 render_engine::render_engine() {
 	m_draw_render = true;
 	m_draw_visualize = false;
+	m_vis_frame_mode = m_vis_verts_mode = false;
 	m_current_draw_type = draw_type::triangle;
 }
 
 void render_engine::test_scene(int w, int h) {
-	int id = load_mesh("Meshes/bunny_s.obj");
-	INFO("finish loading mesh buny");
+	auto plane_mesh = add_plane();
+	vec3 plane_center = plane_mesh->compute_world_center();	
+
+	int id = load_mesh("Meshes/cube.obj");
+	INFO("finish loading mesh cube");
 
 	auto mesh_ptr = get_mesh(id);
 	mesh_ptr->normalize_position_orientation();
-
-	set_mesh_color(mesh_ptr, vec3(0.8f));
+	set_mesh_color(mesh_ptr, vec3(0.6f));
 	recompute_normal(id);
+	stand_on_plane(id, plane_center, vec3(0.0f,1.0f,0.0f));
 
 	cur_manager.cur_camera = std::make_shared<ppc>(w, h, 50.0f);
 	look_at(id);
@@ -48,6 +52,23 @@ void render_engine::set_cur_render_type(draw_type type) {
 	m_current_draw_type = type;
 }
 
+std::shared_ptr<mesh> render_engine::add_plane() {
+	std::shared_ptr<mesh> mesh_ptr = std::make_shared<mesh>();
+	for(int i = 0; i < 20; ++i)
+		for(int j = 0; j < 20; ++j) {
+			vec3 offset(2.0f * i,0.0f, 2.0f * j);
+			mesh_ptr->add_face(offset + vec3(-1.0f,0.0f,-1.0f), offset + vec3(-1.0f,0.0f,1.0f), offset + vec3(1.0f,0.0f,1.0f));
+			mesh_ptr->add_face(offset + vec3(1.0f,0.0f,1.0f), offset + vec3(1.0f,0.0f,-1.0f), offset + vec3(-1.0f,0.0f,-1.0f));
+		}
+	
+	mesh_ptr->set_color(vec3(1.0f));
+	mesh_ptr->normalize_position_orientation(vec3(3.0f,1.0f,3.0f));
+	// mesh_ptr->add_world_transate(vec3(0.0f,-0.25f,0.0f));
+	set_shader(mesh_ptr, "template");
+	add_mesh(mesh_ptr);
+	return mesh_ptr;
+}
+
 void render_engine::render(int frame) {	
 	rendering_params params = get_cur_rendering_params(frame);
 
@@ -59,6 +80,10 @@ void render_engine::render(int frame) {
 		if (m_vis_frame_mode) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		render_scene(cur_manager.visualize_scene, params);
 		if (m_vis_frame_mode) glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+	if (m_vis_verts_mode) {
+		params.dtype = draw_type::points;
+		render_scene(cur_manager.render_scene, params);
 	}
 }
 
@@ -103,6 +128,13 @@ void render_engine::render_scene(std::shared_ptr<scene> cur_scene, rendering_par
 	auto meshes = cur_scene->get_meshes();
 
 	for(auto &m:meshes) {
+		if (params.dtype == draw_type::points) {
+			auto old_color = m->m_colors;
+			m->set_color(vec3(1.0f, 0.0f, 0.0f));
+			cur_manager.rendering_mappings.at(m)->draw_mesh(m, params);
+			m->m_colors = old_color;
+			continue;
+		}
 		cur_manager.rendering_mappings.at(m)->draw_mesh(m, params);
 	}
 }

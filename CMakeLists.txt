@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.8 )
 project(CUDA_Proj LANGUAGES CXX CUDA)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # find_package(glfw3 3.3. REQUIRED)
 find_package(CUDA  REQUIRED)
 FIND_PACKAGE(OpenMP REQUIRED)
@@ -20,6 +22,7 @@ file(GLOB src
     "${PROJECT_SOURCE_DIR}/*.cu"
     "${PROJECT_SOURCE_DIR}/*.cpp"
 )
+
 
 add_executable(hw ${src})
 target_compile_features(hw PUBLIC cxx_std_11)

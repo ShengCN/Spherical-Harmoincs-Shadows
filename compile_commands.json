@@ -1,0 +1,207 @@
+[
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build",
+  "command": "/usr/local/cuda-10.1/bin/nvcc  -DBOOST_ALL_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/usr/local/cuda-10.1/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib  -Xcompiler -fopenmp -g -std=c++14 -x cu -dc /home/ysheng/Documents/CGT_620/helper_cuda.cu -o CMakeFiles/hw.dir/helper_cuda.cu.o",
+  "file": "/home/ysheng/Documents/CGT_620/helper_cuda.cu"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/usr/local/cuda-10.1/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -fopenmp -o CMakeFiles/hw.dir/main.cpp.o -c /home/ysheng/Documents/CGT_620/main.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/main.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/usr/local/cuda-10.1/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -fopenmp -o CMakeFiles/hw.dir/otb_window.cpp.o -c /home/ysheng/Documents/CGT_620/otb_window.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/otb_window.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build",
+  "command": "/usr/local/cuda-10.1/bin/nvcc  -DBOOST_ALL_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/usr/local/cuda-10.1/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib  -Xcompiler -fopenmp -g -std=c++14 -x cu -dc /home/ysheng/Documents/CGT_620/spherical_harmonics.cu -o CMakeFiles/hw.dir/spherical_harmonics.cu.o",
+  "file": "/home/ysheng/Documents/CGT_620/spherical_harmonics.cu"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/cc -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -o CMakeFiles/graphics_lib.dir/Dep/glad/src/glad.c.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/src/glad.c",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/src/glad.c"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -std=gnu++11 -o CMakeFiles/graphics_lib.dir/Dep/imgui/examples/imgui_impl_glfw.cpp.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui/examples/imgui_impl_glfw.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui/examples/imgui_impl_glfw.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -std=gnu++11 -o CMakeFiles/graphics_lib.dir/Dep/imgui/examples/imgui_impl_opengl3.cpp.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui/examples/imgui_impl_opengl3.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui/examples/imgui_impl_opengl3.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -std=gnu++11 -o CMakeFiles/graphics_lib.dir/Dep/imgui/imgui.cpp.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui/imgui.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui/imgui.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -std=gnu++11 -o CMakeFiles/graphics_lib.dir/Dep/imgui/imgui_demo.cpp.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui/imgui_demo.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui/imgui_demo.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -std=gnu++11 -o CMakeFiles/graphics_lib.dir/Dep/imgui/imgui_draw.cpp.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui/imgui_draw.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui/imgui_draw.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -std=gnu++11 -o CMakeFiles/graphics_lib.dir/Dep/imgui/imgui_widgets.cpp.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui/imgui_widgets.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui/imgui_widgets.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -std=gnu++11 -o CMakeFiles/graphics_lib.dir/Dep/tinyobjloader/tiny_obj_loader.cc.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/tinyobjloader/tiny_obj_loader.cc",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/tinyobjloader/tiny_obj_loader.cc"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -std=gnu++11 -o CMakeFiles/graphics_lib.dir/Dep/tinyxml2/tinyxml2.cpp.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/tinyxml2/tinyxml2.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/tinyxml2/tinyxml2.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -std=gnu++11 -o CMakeFiles/graphics_lib.dir/Dep/tinyxml2/xmltest.cpp.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/tinyxml2/xmltest.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/tinyxml2/xmltest.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -std=gnu++11 -o CMakeFiles/graphics_lib.dir/Render/material.cpp.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Render/material.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Render/material.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -std=gnu++11 -o CMakeFiles/graphics_lib.dir/Render/mesh.cpp.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Render/mesh.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Render/mesh.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -std=gnu++11 -o CMakeFiles/graphics_lib.dir/Render/ppc.cpp.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Render/ppc.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Render/ppc.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -std=gnu++11 -o CMakeFiles/graphics_lib.dir/Render/scene.cpp.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Render/scene.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Render/scene.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -std=gnu++11 -o CMakeFiles/graphics_lib.dir/Render/shader.cpp.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Render/shader.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Render/shader.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -std=gnu++11 -o CMakeFiles/graphics_lib.dir/Utilities/Logger.cpp.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Utilities/Logger.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Utilities/Logger.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -std=gnu++11 -o CMakeFiles/graphics_lib.dir/Utilities/Utils.cpp.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Utilities/Utils.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Utilities/Utils.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -std=gnu++11 -o CMakeFiles/graphics_lib.dir/Utilities/model_loader.cpp.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Utilities/model_loader.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Utilities/model_loader.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -std=gnu++11 -o CMakeFiles/graphics_lib.dir/Utilities/voxelization.cpp.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Utilities/voxelization.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Utilities/voxelization.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -std=gnu++11 -o CMakeFiles/graphics_lib.dir/asset_manager.cpp.o -c /home/ysheng/Documents/CGT_620/graphics_lib/asset_manager.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/asset_manager.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DGLM_FORCE_RADIANS -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/stb -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/imgui -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glad/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib -g -std=gnu++11 -o CMakeFiles/graphics_lib.dir/render_engine.cpp.o -c /home/ysheng/Documents/CGT_620/graphics_lib/render_engine.cpp",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/render_engine.cpp"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src",
+  "command": "/usr/bin/cc -DBOOST_ERROR_CODE_HEADER_ONLY -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -D_GLFW_USE_CONFIG_H -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src -I/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/context.c.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/context.c",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/context.c"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src",
+  "command": "/usr/bin/cc -DBOOST_ERROR_CODE_HEADER_ONLY -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -D_GLFW_USE_CONFIG_H -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src -I/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/init.c.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/init.c",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/init.c"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src",
+  "command": "/usr/bin/cc -DBOOST_ERROR_CODE_HEADER_ONLY -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -D_GLFW_USE_CONFIG_H -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src -I/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/input.c.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/input.c",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/input.c"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src",
+  "command": "/usr/bin/cc -DBOOST_ERROR_CODE_HEADER_ONLY -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -D_GLFW_USE_CONFIG_H -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src -I/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/monitor.c.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/monitor.c",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/monitor.c"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src",
+  "command": "/usr/bin/cc -DBOOST_ERROR_CODE_HEADER_ONLY -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -D_GLFW_USE_CONFIG_H -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src -I/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/vulkan.c.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/vulkan.c",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/vulkan.c"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src",
+  "command": "/usr/bin/cc -DBOOST_ERROR_CODE_HEADER_ONLY -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -D_GLFW_USE_CONFIG_H -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src -I/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/window.c.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/window.c",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/window.c"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src",
+  "command": "/usr/bin/cc -DBOOST_ERROR_CODE_HEADER_ONLY -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -D_GLFW_USE_CONFIG_H -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src -I/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/x11_init.c.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/x11_init.c",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/x11_init.c"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src",
+  "command": "/usr/bin/cc -DBOOST_ERROR_CODE_HEADER_ONLY -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -D_GLFW_USE_CONFIG_H -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src -I/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/x11_monitor.c.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/x11_monitor.c",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/x11_monitor.c"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src",
+  "command": "/usr/bin/cc -DBOOST_ERROR_CODE_HEADER_ONLY -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -D_GLFW_USE_CONFIG_H -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src -I/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/x11_window.c.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/x11_window.c",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/x11_window.c"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src",
+  "command": "/usr/bin/cc -DBOOST_ERROR_CODE_HEADER_ONLY -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -D_GLFW_USE_CONFIG_H -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src -I/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/xkb_unicode.c.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/xkb_unicode.c",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/xkb_unicode.c"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src",
+  "command": "/usr/bin/cc -DBOOST_ERROR_CODE_HEADER_ONLY -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -D_GLFW_USE_CONFIG_H -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src -I/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/posix_time.c.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/posix_time.c",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/posix_time.c"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src",
+  "command": "/usr/bin/cc -DBOOST_ERROR_CODE_HEADER_ONLY -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -D_GLFW_USE_CONFIG_H -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src -I/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/posix_thread.c.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/posix_thread.c",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/posix_thread.c"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src",
+  "command": "/usr/bin/cc -DBOOST_ERROR_CODE_HEADER_ONLY -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -D_GLFW_USE_CONFIG_H -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src -I/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/glx_context.c.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/glx_context.c",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/glx_context.c"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src",
+  "command": "/usr/bin/cc -DBOOST_ERROR_CODE_HEADER_ONLY -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -D_GLFW_USE_CONFIG_H -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src -I/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/egl_context.c.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/egl_context.c",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/egl_context.c"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src",
+  "command": "/usr/bin/cc -DBOOST_ERROR_CODE_HEADER_ONLY -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -D_GLFW_USE_CONFIG_H -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src -I/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/osmesa_context.c.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/osmesa_context.c",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/osmesa_context.c"
+},
+{
+  "directory": "/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src",
+  "command": "/usr/bin/cc -DBOOST_ERROR_CODE_HEADER_ONLY -DIMGUI_IMPL_OPENGL_LOADER_GLAD=1 -D_GLFW_USE_CONFIG_H -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/include -I/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src -I/home/ysheng/Documents/CGT_620/build/graphics_lib/Dep/glfw/src -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/linux_joystick.c.o -c /home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/linux_joystick.c",
+  "file": "/home/ysheng/Documents/CGT_620/graphics_lib/Dep/glfw/src/linux_joystick.c"
+}
+]

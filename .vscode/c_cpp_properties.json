@@ -4,9 +4,11 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
+                "${workspaceFolder}/*",
                 "${workspaceFolder}",
+                "/usr/local/cuda/include/",
                 "${workspaceFolder}/graphics_lib/**",
-                "${workspaceFolder}/graphics_lib/Render/*",
+                "${workspaceFolder}/graphics_lib/Render/*"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

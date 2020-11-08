@@ -208,6 +208,7 @@ void otb_window::reload_all_shaders() {
 	m_engine.reload_shaders();
 }
 
+static bool draw_vertex = false;
 void otb_window::draw_gui() {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
@@ -226,13 +227,20 @@ void otb_window::draw_gui() {
 	glPointSize(point_size);
 
 	ImGui::SliderInt("band", &m_band, 0, 20);
-	ImGui::SameLine();
+
 	static bool shadow = false;
 	ImGui::Checkbox("Shadow", &shadow);
+	ImGui::SameLine();
+	ImGui::Checkbox("Draw Vertex", &draw_vertex);
 
 	if (ImGui::Button("dbg")) {
 		int n = 10000;
+
+		cuda_timer clc;
+		clc.tic();
 		exp_bands(m_band, n, shadow);
+		clc.toc();
+		INFO("exp time: " + std::to_string(clc.get_time()));
 	}
 	ImGui::SameLine();
 	if(ImGui::Button("save")) {
@@ -259,34 +267,35 @@ void otb_window::window_resize_callback(GLFWwindow* window, int w, int h) {
 void otb_window::render(int iter) {
 	glClearColor(0.0f,0.0f,0.0f,1.0f);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+
 	m_engine.render(iter);
+	
+	if(draw_vertex) {
+		m_engine.set_vis_verts(true);
+		m_engine.render(iter);
+		m_engine.set_vis_verts(false);
+	}
 }
 
 void otb_window::exp_bands(int band, int n, bool is_shadow) {
 	auto meshes = m_engine.get_rendering_meshes();
-	auto mesh_ptr = meshes.back();
-	mesh_ptr->set_color(vec3(0.7f));
-
 	auto func = [](float theta, float phi) {
 		// int w = img.w, h = img.h, c = img.c;
 		float u = phi / (3.1415926f * 2.0f);
 		float v = theta / (3.1415926f);
 		
-		if (v>0.5f) return 1.0f;
+		if (v>0.5f && u < 0.5f) return 1.0f;
 
 		return 0.0f;
 	};
 
-	// copy all meshes into scene 
-	std::vector<vec3> scene;
-	for(auto m:meshes) {
-		scene.insert(scene.end(), m->m_verts.begin(), m->m_verts.end());
-	}
-
 	// compute_sh_coeff(mesh_ptr, scene, m_band, n);
-	cuda_compute_sh_coeff(mesh_ptr, scene, m_band, n, is_shadow);
-	auto sp_map_coeff = SH_func(func, m_band, n);
-	sh_render(mesh_ptr, sp_map_coeff);
+	// sh_render(mesh_ptr, sp_map_coeff);
+	meshes[0]->set_color(vec3(1.0f));
+	meshes[1]->set_color(vec3(0.7f));
+	test_visible(meshes);
 
-	m_engine.look_at(mesh_ptr->get_id());
+	// cuda_compute_sh_coeff(meshes, m_band, n, is_shadow);
+	// auto sp_map_coeff = SH_func(func, m_band, n);
+	// sh_render(meshes, sp_map_coeff);
 }

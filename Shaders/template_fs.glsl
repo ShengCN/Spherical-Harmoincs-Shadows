@@ -36,7 +36,8 @@ void main(){
     if(is_draw_normal > 0){
         col = vs_norm;
     }
-    
-    col = vs_color;
+
+    // gamma 
+    col = sqrt(vs_color);
     frag_color = vec4(col, 1.0f);
 }

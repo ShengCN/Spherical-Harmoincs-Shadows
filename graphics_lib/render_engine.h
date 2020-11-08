@@ -59,12 +59,14 @@ public:
 	void recompute_normal(int mesh_id);
 	void stand_on_plane(int mesh_id, vec3 p, vec3 n);
 	void set_cur_render_type(draw_type type);
+	std::shared_ptr<mesh> add_plane();
 
 	//------- Rendering --------//
 	void draw_render(bool trigger) { m_draw_render = trigger; }
 	void draw_visualize(bool trigger) { m_draw_visualize = trigger; }
 	void draw_visualize_voxels(std::vector<AABB> voxels);
 	void set_vis_frame(bool trigger) { m_vis_frame_mode = trigger; }
+	void set_vis_verts(bool trigger) { m_vis_verts_mode = trigger; }
 	void voxel_vis(int mesh_id);
 	void draw_visualize_line(glm::vec3 t, glm::vec3 h);
 	void draw_quad();
@@ -83,6 +85,7 @@ private:
 	asset_manager cur_manager;
 	bool m_draw_render, m_draw_visualize;
 	bool m_vis_frame_mode;
+	bool m_vis_verts_mode;
 	GLuint m_quad_vao;
 	draw_type m_current_draw_type;
 	unsigned int m_sh_map_tex;
