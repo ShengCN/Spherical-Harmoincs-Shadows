@@ -284,9 +284,10 @@ void otb_window::exp_bands(int band, int n, bool is_shadow) {
 		float u = phi / (3.1415926f * 2.0f);
 		float v = theta / (3.1415926f);
 
-		if (v>0.5f && u < 0.3) return 1.0f;
+		// if (v>0.5f && u < 0.3) return 1.0f;
 
-		return 0.1f;
+		// return 0.1f;
+		return 1.0f;
 	};
 
 	// compute_sh_coeff(mesh_ptr, scene, m_band, n);

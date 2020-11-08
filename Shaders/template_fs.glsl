@@ -39,6 +39,6 @@ void main(){
 
     // gamma 
     // col = sqrt(vs_color);
-    col = vs_color;
+    col = vs_color * 0.2;
     frag_color = vec4(col, 1.0f);
 }

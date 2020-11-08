@@ -26,15 +26,15 @@ void render_engine::test_scene(int w, int h) {
 	stand_on_plane(id, plane_center, vec3(0.0f,1.0f,0.0f));
 	mesh_ptr->add_world_transate(vec3(-0.75f,0.01f,0.0f));
 
-	id = load_mesh("Meshes/bunny_s.obj");
-	INFO("finish loading mesh cube");
+	// id = load_mesh("Meshes/bunny_s.obj");
+	// INFO("finish loading mesh cube");
 
-	mesh_ptr = get_mesh(id);
-	mesh_ptr->normalize_position_orientation();
-	set_mesh_color(mesh_ptr, vec3(0.6f));
-	recompute_normal(id);
-	stand_on_plane(id, plane_center, vec3(0.0f,1.0f,0.0f));
-	mesh_ptr->add_world_transate(vec3(0.0f,0.01f,0.0f));
+	// mesh_ptr = get_mesh(id);
+	// mesh_ptr->normalize_position_orientation();
+	// set_mesh_color(mesh_ptr, vec3(0.6f));
+	// recompute_normal(id);
+	// stand_on_plane(id, plane_center, vec3(0.0f,1.0f,0.0f));
+	// mesh_ptr->add_world_transate(vec3(0.0f,0.01f,0.0f));
 
 	cur_manager.cur_camera = std::make_shared<ppc>(w, h, 50.0f);
 	look_at(id);

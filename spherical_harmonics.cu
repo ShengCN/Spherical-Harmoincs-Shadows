@@ -264,23 +264,15 @@ void cuda_shadow(mesh_info cur_mesh, int vn, vec3 *scene, int scene_n, SH_sample
 
     int sample_num = sh_n / (band * band);
     float mc_factor = 4.0f * 3.1415926f/(float)sample_num;
-    for(int vi = ind; vi < vn; vi += stride) {
-        float visible_term = 0.0f;
-        for(int si = 0; si < sample_num; ++si) {
-            if(point_visible(cur_mesh.verts[vi], scene, scene_n, sh_samples[si].vec)) {
-                visible_term += 1.0f;
-            }
-        }
-        visible_term = visible_term/(float)sample_num;
 
+    for(int vi = ind; vi < vn; vi += stride) {
         for(int l = 0; l < band * band; ++l) {
             float c = 0.0f;
             for(int si = 0; si < sample_num; ++si) {
-                float dot_term = glm::dot(glm::normalize(cur_mesh.norms[vi]), glm::normalize(sh_samples[l * sample_num + si].vec));
-                if (dot_term < 0.0) dot_term = 0.0f;
-                c += dot_term * sh_samples[l * sample_num + si].c;
+                if (point_visible(cur_mesh.verts[vi], scene, scene_n, sh_samples[l * sample_num + si].vec))
+                    c += sh_samples[l * sample_num + si].c;
             }
-            d_coeffs[vi * band * band + l] = c * mc_factor * visible_term;
+            d_coeffs[vi * band * band + l] = c * mc_factor;
         }
     }
 }
@@ -329,6 +321,9 @@ void cuda_compute_sh_coeff(std::vector<std::shared_ptr<mesh>> &scene,  int band,
     }
 }
 
+void cuda_compute_shadow_sh_coeff(std::shared_ptr<mesh> mesh_ptr, std::vector<glm::vec3> &scene, int band, int n, std::vector<float> &shadow_coeffs) {
+
+}
 
 void sh_render(std::shared_ptr<mesh> mesh_ptr, std::vector<float> light_coeffs) {
     if (mesh_ptr->m_sh_coeffs.empty())
