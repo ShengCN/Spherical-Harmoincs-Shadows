@@ -20,7 +20,7 @@ img_texutre::img_texutre():ogl_tex_id(-1), w(0), h(0), c(0) {
 bool img_texutre::read_img(const std::string path) {
     unsigned char *img_ptr = stbi_load(path.c_str(), &w, &h, &c, 0);
     if (img_ptr == nullptr) {
-        WARN("loading iamge: " + path + " failed");
+        WARN("loading image: " + path + " failed");
         return false;
     }
 
@@ -46,7 +46,7 @@ bool img_texutre::read_img(const std::string path) {
 }
 
 glm::vec3 img_texutre::at(float u, float v) const {
-    int wi = (int)(u * w), hi = (int)(v * h);
+    int wi = (int)(u * w) % w, hi = (int)(v * h) % h;
     glm::vec3 ret(0.0f);
     ret.x = (float)img[c * (wi * h + hi) + 0]/255.0;
     ret.y = (float)img[c * (wi * h + hi) + 1]/255.0;

@@ -258,7 +258,7 @@ struct mesh_info {
 };
 
 __global__
-void cuda_shadow(mesh_info cur_mesh, int vn, vec3 *scene, int scene_n, SH_sample *sh_samples, int sh_n, int band, float *d_coeffs) {
+void cuda_shadow(mesh_info cur_mesh, int vn, vec3 *scene, int scene_n, SH_sample *sh_samples, int sh_n, int band, int *shadow_buffer,float *d_coeffs) {
     int ind = blockDim.x * blockIdx.x + threadIdx.x;
     int stride = gridDim.x * blockDim.x;
 
@@ -269,7 +269,7 @@ void cuda_shadow(mesh_info cur_mesh, int vn, vec3 *scene, int scene_n, SH_sample
         for(int l = 0; l < band * band; ++l) {
             float c = 0.0f;
             for(int si = 0; si < sample_num; ++si) {
-                if (point_visible(cur_mesh.verts[vi], scene, scene_n, sh_samples[l * sample_num + si].vec))
+                if (shadow_buffer[vi * sample_num + si])
                     c += sh_samples[l * sample_num + si].c;
             }
             d_coeffs[vi * band * band + l] = c * mc_factor;
@@ -278,51 +278,128 @@ void cuda_shadow(mesh_info cur_mesh, int vn, vec3 *scene, int scene_n, SH_sample
 }
 
 void cuda_compute_sh_coeff(std::vector<std::shared_ptr<mesh>> &scene,  int band, int n, bool is_shadow) {
+    // auto samples = SH_init(band, n);
+    // std::vector<vec3> scene_verts;
+
+    // std::vector<std::vector<vec3>> each_world_verts;
+    // for(int i = 0; i < scene.size(); ++i) {
+    //     each_world_verts.push_back(scene[i]->compute_world_space_coords());
+    //     scene_verts.insert(scene_verts.end(), each_world_verts[i].begin(), each_world_verts[i].end());
+    // }
+
+    // container_cuda<vec3> cuda_scene_verts(scene_verts);
+    // container_cuda<SH_sample> cuda_sh_samples(samples);
+
+    // for(int mi = 0; mi < scene.size(); ++mi) {
+    //     auto cur_mesh = scene[mi];
+    //     cur_mesh->m_band = band;
+    //     cur_mesh->m_sh_coeffs.resize(band * band * cur_mesh->m_verts.size());
+
+    //     auto world_norms = cur_mesh->compute_world_space_normals();
+
+    //     container_cuda<vec3> cuda_verts(each_world_verts[mi]);
+    //     container_cuda<vec3> cuda_norms(world_norms);
+    //     container_cuda<float> cuda_coeffs(cur_mesh->m_sh_coeffs);
+    //     int grid = 512, block = (grid + cur_mesh->m_norms.size() -1)/grid;
+    //     if (is_shadow) {
+    //         mesh_info cur_info = {cuda_verts.get_d(), cuda_norms.get_d()};
+    //         // compute diffuse-shadow
+    //         cuda_shadow<<<grid,block>>>(
+    //             cur_info,
+    //             cuda_norms.get_n(), 
+    //             cuda_scene_verts.get_d(), 
+    //             cuda_scene_verts.get_n(),
+    //             cuda_sh_samples.get_d(), 
+    //             cuda_sh_samples.get_n(), 
+    //             band, 
+    //             cuda_coeffs.get_d());
+    //     } else {
+    //         cuda_no_shadow<<<grid, block>>>(cuda_norms.get_d(), cuda_norms.get_n(), cuda_sh_samples.get_d(), cuda_sh_samples.get_n(), band, cuda_coeffs.get_d());
+    //     }
+    //     GC(cudaDeviceSynchronize());
+    //     cuda_coeffs.mem_copy_back();
+    // }
+}
+
+void cuda_compute_sh_coeff(std::shared_ptr<mesh> mesh_ptr, int band, int n) {
     auto samples = SH_init(band, n);
-    std::vector<vec3> scene_verts;
-
-    std::vector<std::vector<vec3>> each_world_verts;
-    for(int i = 0; i < scene.size(); ++i) {
-        each_world_verts.push_back(scene[i]->compute_world_space_coords());
-        scene_verts.insert(scene_verts.end(), each_world_verts[i].begin(), each_world_verts[i].end());
-    }
-
-    container_cuda<vec3> cuda_scene_verts(scene_verts);
     container_cuda<SH_sample> cuda_sh_samples(samples);
 
-    for(int mi = 0; mi < scene.size(); ++mi) {
-        auto cur_mesh = scene[mi];
-        cur_mesh->m_band = band;
-        cur_mesh->m_sh_coeffs.resize(band * band * cur_mesh->m_verts.size());
+    auto cur_mesh = mesh_ptr;
+    cur_mesh->m_band = band;
+    cur_mesh->m_sh_coeffs.resize(band * band * cur_mesh->m_verts.size());
 
-        auto world_norms = cur_mesh->compute_world_space_normals();
+    auto world_norms = cur_mesh->compute_world_space_normals();
 
-        container_cuda<vec3> cuda_verts(each_world_verts[mi]);
-        container_cuda<vec3> cuda_norms(world_norms);
-        container_cuda<float> cuda_coeffs(cur_mesh->m_sh_coeffs);
-        int grid = 512, block = (grid + cur_mesh->m_norms.size() -1)/grid;
-        if (is_shadow) {
-            mesh_info cur_info = {cuda_verts.get_d(), cuda_norms.get_d()};
-            // compute diffuse-shadow
-            cuda_shadow<<<grid,block>>>(
-                cur_info,
-                cuda_norms.get_n(), 
-                cuda_scene_verts.get_d(), 
-                cuda_scene_verts.get_n(),
-                cuda_sh_samples.get_d(), 
-                cuda_sh_samples.get_n(), 
-                band, 
-                cuda_coeffs.get_d());
-        } else {
-            cuda_no_shadow<<<grid, block>>>(cuda_norms.get_d(), cuda_norms.get_n(), cuda_sh_samples.get_d(), cuda_sh_samples.get_n(), band, cuda_coeffs.get_d());
+    container_cuda<vec3> cuda_norms(world_norms);
+    container_cuda<float> cuda_coeffs(cur_mesh->m_sh_coeffs);
+    int grid = 512, block = (grid + cur_mesh->m_norms.size() -1)/grid;
+    cuda_no_shadow<<<grid, block>>>(cuda_norms.get_d(), cuda_norms.get_n(), cuda_sh_samples.get_d(), cuda_sh_samples.get_n(), band, cuda_coeffs.get_d());
+    GC(cudaDeviceSynchronize());
+    cuda_coeffs.mem_copy_back();
+}
+
+__global__
+void precompute_shadow_buffer(vec3 *verts, int vn, vec3 *scene, int n, SH_sample *sh_samples, int sn, int *shadow_buffer) {
+    int ind = blockDim.x * blockIdx.x + threadIdx.x;
+    int stride = gridDim.x * blockDim.x;
+
+    for(int i = ind; i < vn; i += stride) {
+        for(int si = 0; si < sn; ++si) {
+            if (point_visible(verts[i], scene, n, sh_samples[si].vec)) {
+                shadow_buffer[i * sn + si] = 1;
+            } else {
+                shadow_buffer[i * sn + si] = 0;
+            }
         }
-        GC(cudaDeviceSynchronize());
-        cuda_coeffs.mem_copy_back();
     }
 }
 
 void cuda_compute_shadow_sh_coeff(std::shared_ptr<mesh> mesh_ptr, std::vector<glm::vec3> &scene, int band, int n, std::vector<float> &shadow_coeffs) {
+    auto samples = SH_init(band, n);
 
+    container_cuda<vec3> cuda_scene_verts(scene);
+    container_cuda<SH_sample> cuda_sh_samples(samples);
+
+    mesh_ptr->m_band = band;
+    mesh_ptr->m_sh_coeffs.resize(band * band * mesh_ptr->m_verts.size());
+
+    auto world_norms = mesh_ptr->compute_world_space_normals();
+    auto world_verts = mesh_ptr->compute_world_space_coords();
+
+    container_cuda<vec3> cuda_verts(world_verts);
+    
+    // store sh visible infos for all verts 
+    std::vector<int> shadow_buffer(n * (int)world_verts.size());
+    container_cuda<int> cuda_shadow_buffer(shadow_buffer);
+    int grid = 512, block = (grid + world_verts.size() -1)/grid;
+
+    precompute_shadow_buffer<<<grid, block>>>(
+        cuda_verts.get_d(), 
+        cuda_verts.get_n(), 
+        cuda_scene_verts.get_d(), 
+        cuda_scene_verts.get_n(), 
+        cuda_sh_samples.get_d(), 
+        n, 
+        cuda_shadow_buffer.get_d());
+    GC(cudaDeviceSynchronize());
+
+    container_cuda<vec3> cuda_norms(world_norms);
+    container_cuda<float> cuda_coeffs(shadow_coeffs);
+
+    mesh_info cur_info = {cuda_verts.get_d(), cuda_norms.get_d()};
+    cuda_shadow<<<grid,block>>>(
+        cur_info,
+        cuda_norms.get_n(), 
+        cuda_scene_verts.get_d(), 
+        cuda_scene_verts.get_n(),
+        cuda_sh_samples.get_d(), 
+        cuda_sh_samples.get_n(), 
+        band, 
+        cuda_shadow_buffer.get_d(),
+        cuda_coeffs.get_d());
+    GC(cudaDeviceSynchronize());
+    cuda_coeffs.mem_copy_back();
 }
 
 void sh_render(std::shared_ptr<mesh> mesh_ptr, std::vector<float> light_coeffs) {

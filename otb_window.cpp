@@ -8,11 +8,18 @@
 #include "graphics_lib/Utilities/Utils.h"
 #include "graphics_lib/Utilities/model_loader.h"
 #include "graphics_lib/Render/material.h"
+#include "spherical_harmonics.h"
 
 using namespace purdue;
 
 otb_window::otb_window() {
-	m_band = 1;
+	m_band = 4;
+	
+	m_u_min = 0.29f;
+	m_u_max = 0.346f;
+	m_v_min = 0.765f;
+	m_v_max = 0.84f;
+	m_intensity = 1.0f;	
 }
 
 otb_window::~otb_window() {
@@ -134,6 +141,9 @@ void otb_window::init_scene() {
 	int h, w;
 	glfwGetWindowSize(_window, &w, &h);
 	m_engine.test_scene(w,h);
+
+	const std::string light_img = "lights/2_0.png";
+	m_ibl.read_img(light_img);
 }
 
 void otb_window::show() {
@@ -208,7 +218,7 @@ void otb_window::reload_all_shaders() {
 	m_engine.reload_shaders();
 }
 
-static bool draw_vertex = false;
+static bool draw_vertex = true;
 void otb_window::draw_gui() {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
@@ -225,20 +235,22 @@ void otb_window::draw_gui() {
 	static int point_size = 1;
 	ImGui::SliderInt("Point size", &point_size, 1, 100);
 	glPointSize(point_size);
-
 	ImGui::SliderInt("band", &m_band, 0, 20);
-
-	static bool shadow = false;
-	ImGui::Checkbox("Shadow", &shadow);
-	ImGui::SameLine();
 	ImGui::Checkbox("Draw Vertex", &draw_vertex);
+	
+	ImGui::SliderFloat("u min", &m_u_min, 0.0f, 1.0f);
+	ImGui::SliderFloat("u max", &m_u_max, 0.0f, 1.0f);
+	ImGui::SliderFloat("v min", &m_v_min, 0.0f, 1.0f);
+	ImGui::SliderFloat("v max", &m_v_max, 0.0f, 1.0f);
+	
+	ImGui::SliderFloat("Light intensity", &m_intensity, 0.0f, 1.0f);
 
 	if (ImGui::Button("dbg")) {
 		int n = 10000;
 
 		cuda_timer clc;
 		clc.tic();
-		exp_bands(m_band, n, shadow);
+		exp_bands(m_band, n, true);
 		clc.toc();
 		INFO("exp time: " + std::to_string(clc.get_time()));
 	}
@@ -251,6 +263,16 @@ void otb_window::draw_gui() {
 
 		std::string out_fname = "output/" + buff_str + ".png";
 		save_framebuffer(out_fname);
+
+		// aslo save basis here
+		out_fname = "output/" + buff_str + ".bin";
+		auto plane_mesh = m_engine.get_rendering_meshes()[0];
+		std::fstream oss(out_fname, std::fstream::out | std::fstream::binary);
+		if (oss.is_open()) {
+			oss.write((char*)&plane_mesh->m_sh_coeffs[0], sizeof(float) * plane_mesh->m_sh_coeffs.size());
+			INFO("Writing " + out_fname + " succeed!");
+		}
+		oss.close();
 	}
 	ImGui::End();
 
@@ -278,24 +300,39 @@ void otb_window::render(int iter) {
 }
 
 void otb_window::exp_bands(int band, int n, bool is_shadow) {
-	auto meshes = m_engine.get_rendering_meshes();
-	auto func = [](float theta, float phi) {
-		// int w = img.w, h = img.h, c = img.c;
+	auto func = [&](float theta, float phi) {
 		float u = phi / (3.1415926f * 2.0f);
-		float v = theta / (3.1415926f);
-
-		// if (v>0.5f && u < 0.3) return 1.0f;
-
-		// return 0.1f;
-		return 1.0f;
+		float v = 1.0f - theta / (3.1415926f);
+		
+		if (u > m_u_min && u < m_u_max && v > m_v_min && v < m_v_max)
+			return m_intensity;
+		
+		return 0.0f;
 	};
 
-	// compute_sh_coeff(mesh_ptr, scene, m_band, n);
-	// sh_render(mesh_ptr, sp_map_coeff);
-	
+	auto meshes = m_engine.get_rendering_meshes();
 	meshes[0]->set_color(vec3(1.0f));
 	meshes[1]->set_color(vec3(0.7f));
-	cuda_compute_sh_coeff(meshes, m_band, n, is_shadow);
+
+	meshes[0]->m_band = band;
+	meshes[0]->m_sh_coeffs.resize(meshes[0]->m_verts.size() * band * band);
+	char buff[100];
+	snprintf(buff, sizeof(buff), "%04d", band);
+	std::string buff_str = buff;
+	std::string sh_weight_fname = "output/" + buff_str + ".bin";
+	std::fstream iss(sh_weight_fname, std::fstream::in | std::fstream::binary);
+	if (iss.is_open()) {
+		iss.read((char*)&meshes[0]->m_sh_coeffs[0], sizeof(float) * meshes[0]->m_sh_coeffs.size());
+		INFO("Reading from " + sh_weight_fname + " succeed");
+	}
+
+	// diffuse
+	cuda_compute_sh_coeff(meshes[1], band, n);
+
 	auto sp_map_coeff = SH_func(func, m_band, n);
+	for(auto f:sp_map_coeff) {
+		INFO("light coeff: " + std::to_string(f));
+	}
+
 	sh_render(meshes, sp_map_coeff);
 }

@@ -53,5 +53,10 @@ private:
 	static render_engine m_engine;
 	float m_distance = 2.0f;
 	int m_band;
+	img_texutre m_ibl;
+
+	float m_u_min, m_u_max;
+	float m_v_min, m_v_max;
+	float m_intensity;
 };
 

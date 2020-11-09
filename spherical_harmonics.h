@@ -25,6 +25,7 @@ std::vector<float> SH_func(std::function<float(float theta, float phi)> func, in
 
 // diffuse, no shadow, cos term
 void compute_sh_coeff(std::shared_ptr<mesh> mesh_ptr, std::vector<glm::vec3> &scene, int band, int n);
+void cuda_compute_sh_coeff(std::shared_ptr<mesh> mesh_ptr, int band, int n);
 void cuda_compute_sh_coeff(std::vector<std::shared_ptr<mesh>> &scene,  int band, int n, bool is_shadow);
 
 // diffuse shadow term
