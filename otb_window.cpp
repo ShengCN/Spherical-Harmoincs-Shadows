@@ -19,7 +19,7 @@ otb_window::otb_window() {
 	m_u_max = 0.346f;
 	m_v_min = 0.765f;
 	m_v_max = 0.84f;
-	m_intensity = 1.0f;	
+	m_intensity = 11.0f;	
 }
 
 otb_window::~otb_window() {
@@ -243,7 +243,7 @@ void otb_window::draw_gui() {
 	ImGui::SliderFloat("v min", &m_v_min, 0.0f, 1.0f);
 	ImGui::SliderFloat("v max", &m_v_max, 0.0f, 1.0f);
 	
-	ImGui::SliderFloat("Light intensity", &m_intensity, 0.0f, 1.0f);
+	ImGui::SliderFloat("Light intensity", &m_intensity, 0.0f, 100.0f);
 
 	if (ImGui::Button("dbg")) {
 		int n = 10000;
