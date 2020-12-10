@@ -35,3 +35,4 @@ void cuda_compute_shadow_sh_coeff(std::shared_ptr<mesh> mesh_ptr, std::vector<gl
 void sh_render(std::shared_ptr<mesh> mesh_ptr, std::vector<float> &light_coeffs);
 void sh_render(std::vector<std::shared_ptr<mesh>> meshes, const std::vector<float> &light_coeffs);
 void test_visible(std::vector<std::shared_ptr<mesh>> meshes);
+void gt_render(std::vector<std::shared_ptr<mesh>> meshes);

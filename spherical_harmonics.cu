@@ -426,3 +426,73 @@ void sh_render(std::vector<std::shared_ptr<mesh>> meshes, const std::vector<floa
         sh_render(meshes[i], light_coeffs);
     }
 }
+
+__host__ __device__ 
+float ibl_light(float theta, float phi) {
+    float u = phi / (3.1415926f * 2.0f);
+    float v = 1.0f - theta / (3.1415926f);
+    
+	float m_u_min = 0.29f;
+	float m_u_max = 0.346f;
+    float m_v_min = 0.765f;
+	float m_v_max = 0.84f;
+	float m_intensity = 11.0f;	
+
+    if (u > m_u_min && u < m_u_max && v > m_v_min && v < m_v_max)
+        return m_intensity;
+    
+    return 0.0f;
+}
+
+__global__
+void gt_lights(vec3 *verts, int N, vec2 *samples, int sn,vec3 *o_colors) {
+    int ind = blockDim.x * blockIdx.x + threadIdx.x;
+    int stride = gridDim.x * blockDim.x;
+
+    for (int i = ind; i < N; i += stride) {
+        vec3 p = verts[i];
+
+        float v = 0.0f;
+        float w = 1.0f/sn;
+        for(int si = 0; si < sn; ++si) {
+            float a = samples[si].x, b = samples[si].y;
+            vec3 dir(std::sin(a) * std::cos(b), std::sin(a) * std::sin(b), std::cos(a));
+            bool visibility = point_visible(p, verts, N, dir);
+            float l = ibl_light(a, b);
+
+            if (visibility) {
+                v += l;
+            }
+        }
+        v = v * w / 11.0f;
+        
+        o_colors[i] = vec3(v);
+    }
+}
+
+void gt_render(std::vector<std::shared_ptr<mesh>> meshes) {
+    std::vector<vec3> verts;
+    std::vector<vec3> colors;
+    for(int i = 0; i < meshes.size(); ++i) {
+        auto world_verts = meshes[i]->compute_world_space_coords();
+        verts.insert(verts.end(), world_verts.begin(), world_verts.end());
+        colors.insert(colors.end(), meshes[i]->m_colors.begin(), meshes[i]->m_colors.end());
+    }
+
+    auto samples = uniform_sphere_2d_samples(100);
+    auto d_verts = container_cuda<vec3>(verts);
+    auto d_colors = container_cuda<vec3>(colors);
+    auto d_samples = container_cuda<vec2>(samples);
+
+    //todo, figure out how to deal with c++11 std::function<...> with function pointer
+    int grid = 512, block = (grid + d_verts.get_n() - 1)/ grid;
+    gt_lights<<<grid, block>>>(d_verts.get_d(), d_verts.get_n(), d_samples.get_d(), d_samples.get_n(), d_colors.get_d());
+    GC(cudaDeviceSynchronize());
+    d_colors.mem_copy_back();
+
+    size_t offset = 0;
+    for(int i = 0; i < meshes.size(); ++i) {
+        std::copy(colors.begin() + offset,colors.begin() + offset + meshes[i]->m_colors.size(), meshes[i]->m_colors.begin());
+        offset += meshes[i]->m_colors.size();
+    }
+}

@@ -48,6 +48,7 @@ private:
 	void render(int iter);
 
 	void exp_bands(int band, int n, bool is_shadow);
+	void gt();
 	
 private:
 	static render_engine m_engine;

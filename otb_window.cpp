@@ -250,7 +250,8 @@ void otb_window::draw_gui() {
 
 		cuda_timer clc;
 		clc.tic();
-		exp_bands(m_band, n, true);
+		// exp_bands(m_band, n, true);
+		gt_render(m_engine.get_rendering_meshes());
 		clc.toc();
 		INFO("exp time: " + std::to_string(clc.get_time()));
 	}
@@ -297,6 +298,22 @@ void otb_window::render(int iter) {
 		m_engine.render(iter);
 		m_engine.set_vis_verts(false);
 	}
+}
+
+void otb_window::gt() {
+	auto func = [&](float theta, float phi) {
+		float u = phi / (3.1415926f * 2.0f);
+		float v = 1.0f - theta / (3.1415926f);
+		
+		if (u > m_u_min && u < m_u_max && v > m_v_min && v < m_v_max)
+			return m_intensity;
+		
+		return 0.0f;
+	};
+
+	auto meshes = m_engine.get_rendering_meshes();
+	meshes[0]->set_color(vec3(1.0f));
+	meshes[1]->set_color(vec3(0.7f));
 }
 
 void otb_window::exp_bands(int band, int n, bool is_shadow) {
